@@ -1,4 +1,4 @@
-Tecknoworks Rails Template App
+Tecknoworks Rails BookIt App
 ==============================
 
 How to use:
