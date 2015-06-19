@@ -10,6 +10,6 @@ class CreateContacts < ActiveRecord::Migration
       t.timestamps null: false
     end
 
-    add_index :reservations, :contact_id
+   
   end
 end

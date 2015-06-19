@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :dining_table do
-    name "MyString"
+    number 1
+    seat 6
+    zone
   end
-
 end
