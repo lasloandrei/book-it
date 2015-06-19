@@ -1,24 +1,10 @@
 Tecknoworks Rails BookIt App
 ==============================
 
-How to use:
+To generate erd diagrams run:
 
-1. Fork
-2. Enjoy
-3. After
-4. Rename
-
-What is inside?
-
-* rails
-* devise
-* active_admin
-* rspec
-* factory_girl
-* guard
-
-To rename the app, we are using 'rename' gem.
+Note: you need to install graphiz
 
 ```
-rails g rename:app_to name_of_app
+bundle exec erd
 ```
