@@ -14,4 +14,8 @@ RSpec.describe DiningTable, type: :model do
   it 'requires a zone' do
 
  end
+
+  it 'belongs_to zone' do
+    expect(dining_table.zone.class).to eq Zone
+  end
 end
