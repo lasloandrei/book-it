@@ -8,7 +8,8 @@ RSpec.describe Zone, type: :model do
   end
 
   it 'should have many dining tables' do
-  	expect(zone.dining_tables).to be_empty
+  	
+    expect(zone.dining_tables).to be_empty
 
   	create :dining_table, zone: zone
 

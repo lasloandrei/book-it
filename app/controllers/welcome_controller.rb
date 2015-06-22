@@ -1,6 +1,6 @@
 class WelcomeController < ApplicationController
   def index
-    render json: {}
+    render json: User.all
   end
 
   # this is just a mock method to help you with ContactsController.
@@ -8,6 +8,6 @@ class WelcomeController < ApplicationController
   #
   # Remember to read about routes and controller actions
   def foo
-    render json: Contact.all
+    render json: User.find(1)
   end
 end

@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :dining_table do
-    number 1
+    uid 1
     seat 6
-    zone
+    zone_id 4
   end
 end
