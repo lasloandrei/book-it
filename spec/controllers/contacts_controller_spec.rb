@@ -23,7 +23,7 @@ RSpec.describe ContactsController, type: :controller do
   end
 
   describe "GET #show" do
-    it "fins a specific contact" do
+    it "finds a specific contact" do
       contact
       get :show, id: contact.id
       expect(json['id']).to eq contact.id

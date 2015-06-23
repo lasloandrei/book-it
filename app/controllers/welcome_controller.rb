@@ -8,6 +8,10 @@ class WelcomeController < ApplicationController
   #
   # Remember to read about routes and controller actions
   def foo
-    render json: User.find(1)
+    render json: User.find(2)
+  end
+
+  def goo
+    render json: Contacts.find(1)
   end
 end

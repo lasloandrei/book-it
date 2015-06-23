@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
-  get 'welcome/index'
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -58,7 +58,21 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+  get 'welcome/index'
   get 'welcome/foo'
   
+  
+  get 'contacts' => 'contacts#index'
+  get 'contacts/show'
+
+
+  get 'dining_tables' => 'dining_tables#index'
+  get 'dining_tables/show'
+
+  get 'reservations' => 'reservations#index'
+  get 'reservations/show'
+
+  get 'zones' => 'zones#index'
+  get 'zones/show'
 
 end
