@@ -13,5 +13,5 @@ RSpec.describe ZonesController, type: :controller do
       get :index
       expect(json).to be_empty
     end
-
+  end
 end

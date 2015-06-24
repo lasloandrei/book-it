@@ -63,7 +63,7 @@ Rails.application.routes.draw do
   
   
   get 'contacts' => 'contacts#index'
-  get 'contacts/show'
+  get 'contacts/:id' => 'contacts#show'
 
 
   get 'dining_tables' => 'dining_tables#index'

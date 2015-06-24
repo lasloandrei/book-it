@@ -13,5 +13,5 @@ RSpec.describe ReservationsController, type: :controller do
       get :index
       expect(json).to be_empty
     end
-
+ end
 end
