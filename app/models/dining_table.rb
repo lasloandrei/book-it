@@ -1,6 +1,6 @@
 class DiningTable < ActiveRecord::Base
-  belongs_to :zone, foreign_key: 'id'
-  belongs_to :reservations, foreign_key: 'id'
+  belongs_to :zone
+ has_many :reservations
   
   validates :uid, presence: true
   validates :zone_id, presence: true
