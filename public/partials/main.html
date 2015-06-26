@@ -138,25 +138,57 @@ for( ; i < len; ++i ){document.createElement(t[i]);}
 
 		<div ng-controller="DatepickerDemoCtrl">
 		    <pre>Today is: <em>{{dt | date:'fullDate' }}</em></pre>
+		
 
+		<div class="col-md-4">
 
-		    <label for="exampleDate">Date</label>
+		    
+		
+		</div>
+
+		<div class="col-md-4">
+
+			
+		
+		</div>
+
+		<div class="col-md-4">
+
+			
+		
+		</div>
 
 		    <div class="row">
 		        
 
-		        <div class="col-md-6">
+		        <div class="col-md-4">
+
+		        	<label for="exampleDate">Date</label>
 		            <p class="input-group">
 		              <input type="date" class="form-control" datepicker-popup ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+		              
 		              <span class="input-group-btn">
 		              
-<!-- 		              <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
- -->		              </span>
+		              <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+		              </span>
 		            </p>
 		        </div>
 				
-				<label for="exampleDate">Zona</label>
+					<div class="col-xs-4" ng-controller="ZonepickerCtrl">
 
+						<label for="exampleDate">Zona</label>
+        		
+      					<select class="form-control" ng-model="mstep" ng-options="opt for opt in options.mstep"></select>
+    				
+    				</div>
+
+    				<div class="col-xs-4" ng-controller="DTablepickerCtrl">
+        					
+        					<label for="exampleDate">Dining Table</label>
+
+      					<select class="form-control" ng-model="mstep" ng-options="opt for opt in options.mstep"></select>
+    				
+    				</div>
 		        
 
 		    </div>

@@ -107,3 +107,13 @@ bookIt.controller('DropdownCtrl', function ($scope, $log) {
     $scope.status.isopen = !$scope.status.isopen;
   };
 });
+
+bookIt.controller('ZonepickerCtrl', function ($scope, $log) {
+
+  $scope.mstep = 15;
+
+  $scope.options = {
+    
+    mstep: zone.name
+  };
+});

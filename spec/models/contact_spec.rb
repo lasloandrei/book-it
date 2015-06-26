@@ -27,7 +27,7 @@ RSpec.describe Contact, type: :model do
   it 'requires a valid phone number' do
   
    create :contact, phone_number: '0758878747'
-   
+  
    expect(contact.phone_number.length).to be >= 10
    expect(contact.phone_number !~ /\D/).to be true
   end
