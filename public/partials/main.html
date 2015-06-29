@@ -59,9 +59,8 @@ for( ; i < len; ++i ){document.createElement(t[i]);}
 <script src="http://berariah.ro/g=modernizr.v59.js"></script>
 <!--[if lt IE 9]> <script src="http://berariah.ro/js/html5shiv.min.js"></script> <![endif]-->
 <script src="http://berariah.ro/g=head.v59.js"></script>
-
 <style>
-.full button span {
+  .full button span {
     background-color: limegreen;
     border-radius: 32px;
     color: black;
@@ -70,10 +69,8 @@ for( ; i < len; ++i ){document.createElement(t[i]);}
     background-color: orange;
     border-radius: 32px;
     color: black;
-}
+  }
 </style>
-
-
 </head>
 
 <body class="">
@@ -103,16 +100,10 @@ for( ; i < len; ++i ){document.createElement(t[i]);}
 							<li class=""><a href="#/">Magazin</a></li>
 							<li class=""><a href="#/">Blog</a></li>
 							
-							<li class="">
-								<a data-toggle="dropdown" class="dropdown-toggle" href="#/" href="#/">Despre <b class="caret"></b></a>
-								<ul class="dropdown-menu">
-									<li><a href="#/">Povestea</a></li>
-									<li><a href="#/">Beraria H in presa</a></li>
-									<li><a href="#/">Diverse</a></li>
-								</ul>					
-							</li>
+							
 							
 							<li class=""><a href="#/">Contact</a></li>
+							<li class=""><a href="#/">Log In</a></li>
 						</ul>
 						
 						<ul class="nav navbar-nav navbar-right">
@@ -133,7 +124,7 @@ for( ; i < len; ++i ){document.createElement(t[i]);}
 		<br>
 
 
-     <form>
+     <form ng-controller="FormController">
   
 
 		<div ng-controller="DatepickerDemoCtrl">
@@ -164,64 +155,61 @@ for( ; i < len; ++i ){document.createElement(t[i]);}
 		        <div class="col-md-4">
 
 		        	<label for="exampleDate">Date</label>
-		            <p class="input-group">
-		              <input type="date" class="form-control" datepicker-popup ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
-		              
-		              <span class="input-group-btn">
-		              
-		              <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-		              </span>
-		            </p>
+		            
+			            <p class="input-group">
+			              <input type="date" class="form-control" datepicker-popup ng-model="dt" is-open="opened" min-date="minDate" max-date="'2016-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+			              
+			             
+			            </p>
 		        </div>
 				
-					<div class="col-xs-4" ng-controller="ZonepickerCtrl">
+					<div class="col-xs-4" ng-controller="ZoneListController">
 
-						<label for="exampleDate">Zona</label>
+						<label for="exampleDate">Zone</label>
         		
-      					<select class="form-control" ng-model="mstep" ng-options="opt for opt in options.mstep"></select>
-    				
-    				</div>
+      					<select class="form-control" ng-model="zone" ng-options="name for zone in zones"><option></option> </select>
+      				</div>
 
-    				<div class="col-xs-4" ng-controller="DTablepickerCtrl">
+    				
+
+    				<div class="col-xs-4" ng-controller="DTablePickerController">
         					
         					<label for="exampleDate">Dining Table</label>
 
-      					<select class="form-control" ng-model="mstep" ng-options="opt for opt in options.mstep"></select>
+      					<select class="form-control" ng-model="dining_table" ng-options="uid for dining_table in dining_tables"><option></option></select>
     				
     				</div>
 		        
-
-		    </div>
-	    
-
-	    
-		    <button type="button" class="btn btn-sm btn-info" ng-click="today()">Today</button>
-		    
-		    <button type="button" class="btn btn-sm btn-danger" ng-click="clear()">Clear</button>
-	     
+		    </div>	     
 	    
 	     </div>
 
 		<br>
 
 
+
   		<div class="form-group">
-    		<label for="exampleFirstName">First Name</label>
-   			<input type="name" class="form-control" id="InputName" placeholder="Eriksen">
+    		<label for="InputFirstName">First Name</label>
+   			<input type="text" ng-model:"contact.first_name" class="form-control" placeholder="Eriksen">
   		</div>
   
   		<div class="form-group">
-    		<label for="exampleInputPassword1">Last Name</label>
-    		<input type="name" class="form-control" id="InputName" placeholder="George">
+    		<label for="InputLastName">Last Name</label>
+    		<input type="text" ng-model:"contact.last_name" class="form-control" placeholder="George">
   		</div>
 
   		<div class="form-group">
-		    <label for="exampleInputEmail2">Email</label>
-		    <input type="email" class="form-control" id="exampleInputEmail2" placeholder="george.eriksen@example.com">
+    		<label for="InputPhoneNumber">Phone Number</label>
+    		<input type="text" ng-model:"contact.phone_number" class="form-control" >
+  		</div>
+
+  		<div class="form-group">
+		    <label for="InputEmail2">Email</label>
+		    <input type="text" ng-model:"contact.email" class="form-control" placeholder="george.eriksen@example.com">
   		</div>
   			
   			<hr />
-  			<button type="submit" value="Submit" class="btn btn-default">Submit</button>
+  			<button type="submit" ng-click="update(contact)" value="Save" class="btn btn-default">Submit</button>
 		</form>
 	</div>
 

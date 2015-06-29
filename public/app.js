@@ -20,6 +20,16 @@ bookIt.controller('ZoneListController', function ($scope, $http) {
 	  success(function(data) {
 	    $scope.zones = data;
 	  })
+  //$scope.zones = ['Radioteca', 'Cooberativa', 'Terasa'];
+  
+});
+
+bookIt.controller('DTablePickerController', function ($scope, $http) {
+  $http.get('/dining_tables').
+    success(function(data) {
+      $scope.dining_tables = data;
+    })
+  
 });
 
 bookIt.controller('DatepickerDemoCtrl', function ($scope) {
@@ -90,30 +100,16 @@ bookIt.controller('DatepickerDemoCtrl', function ($scope) {
   };
 });
 
-bookIt.controller('DropdownCtrl', function ($scope, $log) {
-  $scope.zones = data;
+bookIt.controller('FormController', ['$scope', function($scope) {
+      $scope.master = {};
 
-  $scope.status = {
-    isopen: false
-  };
+      $scope.update = function(contact) {
+        $scope.master = angular.copy(contact);
+      };
 
-  $scope.toggled = function(open) {
-    $log.log('Dropdown is now: ', open);
-  };
+      $scope.reset = function() {
+        $scope.contact = angular.copy($scope.master);
+      };
 
-  $scope.toggleDropdown = function($event) {
-    $event.preventDefault();
-    $event.stopPropagation();
-    $scope.status.isopen = !$scope.status.isopen;
-  };
-});
-
-bookIt.controller('ZonepickerCtrl', function ($scope, $log) {
-
-  $scope.mstep = 15;
-
-  $scope.options = {
-    
-    mstep: zone.name
-  };
-});
+      $scope.reset();
+}]);
