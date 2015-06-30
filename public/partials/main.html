@@ -10,10 +10,12 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="HandheldFriendly" content="True" />
 <meta name="google-site-verification" content="_q1IkuKYal89c3EDRcH3BTlysvTFLXdDMuxQ7jGAhko" />
+
 <title>Beraria H</title>
 <!-- This web site was designed and engineered by Asesoft Net. Should you, or your company, desire more information about this website or the development of community web sites or different other applications, please contact us (support at asesoftnet dot com) -->
 <link rel="canonical" href="http://www.berariah.ro/" />
 <script>
+
 <!--//--><![CDATA[//><!--
 (function(window, undefined){
 var document = window.document, ua = window.navigator.userAgent.toLowerCase(), t = 'abbr|button|header|footer|nav'.split('|'), i = 0, len = t.length, location = window.location, handleHashbang;
@@ -34,7 +36,7 @@ document.getElementsByTagName("html")[0].className+=" "+(ua.indexOf("webkit")>=0
 for( ; i < len; ++i ){document.createElement(t[i]);}
 })(this);
 //--><!]]>
-</script>
+</script >
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 <!-- precomposed pre iOS 7 -->
 <link rel="apple-touch-icon-precomposed" href="http://berariah.ro/img/site/touch-icon-precomposed.png" />
@@ -59,6 +61,7 @@ for( ; i < len; ++i ){document.createElement(t[i]);}
 <script src="http://berariah.ro/g=modernizr.v59.js"></script>
 <!--[if lt IE 9]> <script src="http://berariah.ro/js/html5shiv.min.js"></script> <![endif]-->
 <script src="http://berariah.ro/g=head.v59.js"></script>
+<script src="path-to/js/bootstrap-select.min.js"></script>
 <style>
   .full button span {
     background-color: limegreen;
@@ -163,11 +166,12 @@ for( ; i < len; ++i ){document.createElement(t[i]);}
 			            </p>
 		        </div>
 				
-					<div class="col-xs-4" ng-controller="ZoneListController">
+					<div class="col-xs-4" ng-controller="ZoneListController" >
 
 						<label for="exampleDate">Zone</label>
         		
-      					<select class="form-control" ng-model="zone" ng-options="name for zone in zones"><option></option> </select>
+      					<select class="form-control" ng-model="zone" ng-options="name for zone in zones"><option>  
+      					</option> </select>
       				</div>
 
     				

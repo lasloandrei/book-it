@@ -20,6 +20,7 @@ bookIt.controller('ZoneListController', function ($scope, $http) {
 	  success(function(data) {
 	    $scope.zones = data;
 	  })
+
   //$scope.zones = ['Radioteca', 'Cooberativa', 'Terasa'];
   
 });
