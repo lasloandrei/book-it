@@ -20,8 +20,6 @@ bookIt.controller('ZoneListController', function ($scope, $http) {
 	  success(function(data) {
 	    $scope.zones = data;
 	  })
-
-  //$scope.zones = ['Radioteca', 'Cooberativa', 'Terasa'];
   
 });
 
@@ -43,10 +41,10 @@ bookIt.controller('DatepickerDemoCtrl', function ($scope) {
     $scope.dt = null;
   };
 
-  // Disable weekend selection
-  $scope.disabled = function(date, mode) {
-    return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
-  };
+  // // Disable weekend selection
+  // $scope.disabled = function(date, mode) {
+  //   return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+  // };
 
   $scope.toggleMin = function() {
     $scope.minDate = $scope.minDate ? null : new Date();
@@ -65,24 +63,24 @@ bookIt.controller('DatepickerDemoCtrl', function ($scope) {
     startingDay: 1
   };
 
-  $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-  $scope.format = $scope.formats[0];
+  // $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+  // $scope.format = $scope.formats[0];
 
-  var tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  var afterTomorrow = new Date();
-  afterTomorrow.setDate(tomorrow.getDate() + 2);
-  $scope.events =
-    [
-      {
-        date: tomorrow,
-        status: 'full'
-      },
-      {
-        date: afterTomorrow,
-        status: 'partially'
-      }
-    ];
+  // var tomorrow = new Date();
+  // tomorrow.setDate(tomorrow.getDate() + 1);
+  // var afterTomorrow = new Date();
+  // afterTomorrow.setDate(tomorrow.getDate() + 2);
+  // $scope.events =
+  //   [
+  //     {
+  //       date: tomorrow,
+  //       status: 'full'
+  //     },
+  //     {
+  //       date: afterTomorrow,
+  //       status: 'partially'
+  //     }
+  //   ];
 
   $scope.getDayClass = function(date, mode) {
     if (mode === 'day') {

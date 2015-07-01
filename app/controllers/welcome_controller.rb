@@ -1,4 +1,5 @@
 class WelcomeController < ApplicationController
+  
   def index
     render json: User.all
   end
@@ -8,10 +9,7 @@ class WelcomeController < ApplicationController
   #
   # Remember to read about routes and controller actions
   def foo
-    render json: User.find(2)
+    render json: User.find(params[:id])
   end
 
-  def goo
-    render json: Contacts.find(1)
-  end
 end

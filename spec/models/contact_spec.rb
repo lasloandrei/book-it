@@ -32,6 +32,8 @@ RSpec.describe Contact, type: :model do
    expect(contact.phone_number !~ /\D/).to be true
   end
 
+  it 'has a phone_number composed of numbers only'
+
   it 'has an optional email' do
 
    create :contact, email:'' 
@@ -40,6 +42,13 @@ RSpec.describe Contact, type: :model do
 
   end
 
+  it 'creates a contact' do
+    expect {
+      c = Contact.create({first_name: 'asd', last_name: 'bar', phone_number: 'asdasdasdasdasd'})
+      p c.errors
+    }.to change { Contact.count }.by 1
+    
+  end
   	
 
 end

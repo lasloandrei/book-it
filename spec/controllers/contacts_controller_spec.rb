@@ -18,7 +18,7 @@ RSpec.describe ContactsController, type: :controller do
     it "returns all the contacts" do
       contact
       get :index
-      expect(json).to include(contact)
+      expect(json.collect{|e| e["id"]}).to include(contact.id)
     end
   end
 
@@ -28,5 +28,16 @@ RSpec.describe ContactsController, type: :controller do
       get :show, id: contact.id
       expect(json['id']).to eq contact.id
     end
+
+    it 'works for many contacts' do
+      contact
+      c2 = create :contact
+
+      get :show, id: c2.id, name: 'foo'
+      expect(json['id']).to eq c2.id
+    end
+  end
+
+  describe "POST #create" do
   end
 end
