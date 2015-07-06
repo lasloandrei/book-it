@@ -170,7 +170,7 @@ for( ; i < len; ++i ){document.createElement(t[i]);}
 
 						<label for="exampleDate">Zone</label>
         		
-      					<select class="form-control" ng-model="zone" ng-options="zone.name for zone in zones"><option>  
+      					<select class="form-control" ng-model="zone" ng-options="zone.name for zone in zones" ><option>  
       					</option> </select>
       				</div>
 
@@ -180,7 +180,7 @@ for( ; i < len; ++i ){document.createElement(t[i]);}
         					
         					<label for="exampleDate">Seats / Dining Table</label>
 
-      					<select class="form-control" ng-model="dining_table" ng-options="dining_table.seat for dining_table in dining_tables"></select>
+      					<select class="form-control" ng-model="dining_table" ng-options="dining_table.seat for dining_table in dining_tables" 	></select>
     				
     				</div>
 		        
@@ -195,23 +195,23 @@ for( ; i < len; ++i ){document.createElement(t[i]);}
 
 
   		<div class="form-group">
-    		<label for="InputFirstName">First Name</label>
+    		<label for="contact[first_name]">First Name</label>
    			<input type="text" name="contact[first_name]" ng-model:"contact.first_name" class="form-control" placeholder="Eriksen">
   		</div>
   
   		<div class="form-group">
-    		<label for="InputLastName">Last Name</label>
-    		<input type="text" ng-model:"contact.last_name" class="form-control" placeholder="George">
+    		<label for="contact[last_name]">Last Name</label>
+    		<input type="text" name="contact[last_name]" ng-model:"contact.last_name" class="form-control" placeholder="George">
   		</div>
 
   		<div class="form-group">
-    		<label for="InputPhoneNumber">Phone Number</label>
-    		<input type="text" ng-model:"contact.phone_number" class="form-control" >
+    		<label for="contact[phone_number]">Phone Number</label>
+    		<input type="text" name="contact.phone_number" ng-model:"contact.phone_number" class="form-control" >
   		</div>
 
   		<div class="form-group">
-		    <label for="InputEmail">Email</label>
-		    <input type="text" ng-model:"contact.email" class="form-control" placeholder="george.eriksen@example.com">
+		    <label for="contact[email]">Email</label>
+		    <input type="text" name="contact.email" ng-model:"contact.email" class="form-control" placeholder="george.eriksen@example.com">
   		</div>
 
   		<div class="form-group">
@@ -220,7 +220,7 @@ for( ; i < len; ++i ){document.createElement(t[i]);}
 		</div>
   			
   			<hr />
-  			<button type="submit" value="Save" class="btn btn-default">Submit</button>
+  			<button type="submit" name="commit" class="btn btn-default">Submit</button>
 		</form>
 	</div>
 

@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   apipie
+  resources :contacts
+  resources :reservations
   devise_for :users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
@@ -65,6 +67,7 @@ Rails.application.routes.draw do
   # Contacts + documentation
   get 'contacts' => 'contacts#index'
   get 'contacts/:id' => 'contacts#show'
+  post 'cotacts' => 'contacts#create'
   scope :api do
         get 'contacts' => 'contacts#index'
         get 'contacts/show'
@@ -79,6 +82,7 @@ Rails.application.routes.draw do
   # Reservations + documentation
   get 'reservations' => 'reservations#index'
   get 'reservations/show'
+  post 'reservations' => 'reservations#create'
   scope :api do
       get 'reservations' => 'reservations#index'
       get 'reservations/show'

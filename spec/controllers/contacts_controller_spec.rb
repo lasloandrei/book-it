@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ContactsController, type: :controller do
-
+  render_views
   let(:contact) { create :contact }
 
   describe "GET #index" do
