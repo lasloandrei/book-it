@@ -3,6 +3,10 @@ has_many :reservations
 
 validates :first_name, presence: true
 validates :last_name,  presence: true
-validates_length_of :phone_number, minimum: 10, too_short: 'please enter at least 10 characters'
+validates :phone_number, :presence => {:message => 'The contact needs a phone number!'},
+                    	 :numericality => {:message => 'The number needs to contain digits ONLY'}, 
+                    	 :length => { :minimum => 10, :maximum => 15 }
+validates_format_of :email, :with => /.+@.+\..+/i
+
 
 end

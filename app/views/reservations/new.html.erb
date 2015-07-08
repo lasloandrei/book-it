@@ -1,15 +1,27 @@
 <%= form_for @reservation do |f| %>
+	<% if @reservation.errors.any? %>
+	    <div id="error_explanation">
+	      <h2><%= pluralize(@reservation.errors.count, "error") %> prohibited this contact from being saved:</h2>
+
+	      <ul>
+	      <% @reservation.errors.full_messages.each do |msg| %>
+	        <li><%= msg %></li>
+	      <% end %>
+	      </ul>
+	    </div>
+	  <% end %>
+
 	<div>
 	<%= f.label :contact_id, 'Contact ID' %><br />
-	<%= f.text_field :contact_id %><br />
+	<%= f.number_field :contact_id %><br />
     </div>
 	<div>
 	<%= f.label :dining_table_id, 'Dining Table ID' %><br />
-	<%= f.text_field :dining_table_id %><br />
+	<%= f.number_field :dining_table_id %><br />
     </div>
     <div>
 	<%= f.label :date %><br />
-	<%= f.text_field :date %><br />
+	<%= f.date_field :date %><br />
     </div>
     <div>
 	<%= f.label :observation %><br />

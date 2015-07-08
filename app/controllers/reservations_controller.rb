@@ -12,7 +12,7 @@ class ReservationsController < ApplicationController
   def new
   
     @reservation = Reservation.new
-    #@contacts = Contact.find(params[:id])
+
   end
 
   def create
@@ -20,8 +20,7 @@ class ReservationsController < ApplicationController
     @reservation = Reservation.new(contact_params)
     if @reservation.save
     	redirect_to reservations_url
-    	#flash[:notice] = "Contact successfully created."
-    
+
     else
     	render 'new'
     end
