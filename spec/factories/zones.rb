@@ -1,5 +1,5 @@
 FactoryGirl.define do
   factory :zone do
-    name "Radioteca"
+    name 'Radioteca'
   end
 end

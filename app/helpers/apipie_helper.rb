@@ -6,5 +6,4 @@ module ApipieHelper
       title
     end
   end
-
 end

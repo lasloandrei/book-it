@@ -1,5 +1,4 @@
 class WelcomeController < ApplicationController
-  
   def index
     render json: User.all
   end
@@ -11,5 +10,4 @@ class WelcomeController < ApplicationController
   def foo
     render json: User.find(params[:id])
   end
-
 end

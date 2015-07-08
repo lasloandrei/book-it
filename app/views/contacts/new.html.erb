@@ -2,38 +2,36 @@
 	<% if @contact.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@contact.errors.count, "error") %> prohibited this contact from being saved:</h2>
-
-      <ul>
-      <% @contact.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+        <ul>
+          <% @contact.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
     </div>
   <% end %>
+
  	<div>
- 	<%= f.label :first_name %><br />
- 	<%= f.text_field :first_name %><br />
-     </div>
- 	<div>
- 	<%= f.label :last_name %><br />
- 	<%= f.text_field :last_name %><br />
-     </div>
-     <div>
- 	<%= f.label :phone_number %><br />
- 	<%= f.text_field :phone_number %><br />
-     </div>
-     <div>
- 	<%= f.label :email %><br />
- 	<%= f.text_field :email %><br />
-     </div>
- 	<%= f.submit %><br />
+ 	  <%= f.label :first_name %><br />
+ 	  <%= f.text_field :first_name %><br />
+  </div>
+ 	
+  <div>
+ 	  <%= f.label :last_name %><br />
+ 	  <%= f.text_field :last_name %><br />
+  </div>
+  
+  <div>
+ 	  <%= f.label :phone_number %><br />
+ 	  <%= f.text_field :phone_number %><br />
+  </div>
+     
+  <div>
+ 	  <%= f.label :email %><br />
+ 	  <%= f.text_field :email %><br />
+  </div>
+ 	
+  <%= f.submit %><br />
+ 
  <% end %>
  <hr>
-<!--  Display all contacts <br />
- <% if !@contacts.blank? %>
-    <% for item in @contacts %>
-    <% item.first_name %> <% item.last_name %> <br />
-    <% end %>
- <% else %>
- <% end %> -->
 
