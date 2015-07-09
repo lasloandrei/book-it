@@ -1,0 +1,44 @@
+ <%= form_for @custom do |f| %>
+ 	<div>
+ 	  <%= f.label :first_name %><br />
+ 	  <%= f.text_field :first_name %><br />
+  </div>
+ 	
+  <div>
+ 	  <%= f.label :last_name %><br />
+ 	  <%= f.text_field :last_name %><br />
+  </div>
+  
+  <div>
+ 	  <%= f.label :phone_number %><br />
+ 	  <%= f.text_field :phone_number %><br />
+  </div>
+     
+  <div>
+ 	  <%= f.label :email %><br />
+ 	  <%= f.text_field :email %><br />
+  </div>
+ 	  
+  <div>
+    <%= f.label :contact_id, 'Contact ID' %><br />
+    <%= f.number_field :contact_id %><br />
+  </div>
+  <div>
+    <%= f.label :dining_table_id, 'Dining Table ID' %><br />
+    <%= f.number_field :dining_table_id %><br />
+  </div>
+
+  <div>
+    <%= f.label :date %><br />
+    <%= f.date_field :date %><br />
+  </div>
+
+  <div>
+    <%= f.label :observation %><br />
+    <%= f.text_field :observation %><br />
+  </div>
+  
+  <%= f.submit %><br />
+ 
+ <% end %>
+ <hr>

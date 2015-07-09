@@ -1,6 +1,5 @@
-class ContactsController < ApplicationController
-  api :GET, '/contacts'
-  def index
+class CustomController < ApplicationController
+def index
     render json: Contact.all
     @contacts = Contact.all
   end
@@ -17,26 +16,27 @@ class ContactsController < ApplicationController
 
   def create
     @contact = Contact.new(contact_params)
-    if @contact.save
-      redirect_to contacts_path, notice: 'Your Contact was created !'
-      # flash[:notice] = "Contact successfully created."
+    @reservation = Reservation.new(reservation_params)
+    if @contact.save && @reservation.save
+      redirect_to custom_path
     else
-      render 'new'
+          render 'new'
     end
   end
 
   def edit
     @contact = Contact.find(params[:id])
+    @reservation = Reservation.find(params[:id])
   end
 
-  def contact_params
-    params.require(:contact).permit(:first_name, :last_name, :phone_number, :email)
+  def custom_params
+    params.require(:custom).permit(:first_name, :last_name, :phone_number, :email, :contact_id, :dining_table_id, :date, :observation)
   end
 
   def update
-    @contact = Contact.find(params[:id])
-      if @contact.update_attributes(contact_params)
-        redirect_to contacts_path, notice: 'Your Contact was updated !'
+    @custom = Custom.find(params[:id])
+      if @custom.update_attributes(custom_params)
+        redirect_to custom_path, notice: 'Your Custom Reservation was updated !'
       else
         render 'edit'
       end
@@ -46,5 +46,4 @@ class ContactsController < ApplicationController
     @contact = Contact.find(params[:id])
     @contact.destroy
     redirect_to contacts_path, notice: 'Your Contact was deleted !'
-  end
 end

@@ -1,0 +1,6 @@
+<p><%= @reservation.contact_id %></ p>
+<p><%= @reservation.date %></ p> 
+<p>
+<%= link_to 'Edit', edit_reservation_path(@reservation) %> ::
+<%= link_to 'Delete', @reservation, confirm: 'Are you sure?', method: :delete %>
+</p>

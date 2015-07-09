@@ -1,0 +1,6 @@
+<p><%= @contact.first_name %></ p>
+<p><%= @contact.last_name %></ p>
+<p>
+<%= link_to 'Edit', edit_contact_path(@contact) %> ::
+<%= link_to 'Delete', @contact, confirm: 'Are you sure?', method: :delete %>
+</p>

@@ -30,8 +30,7 @@ RSpec.describe Contact, type: :model do
 
   it 'creates a contact' do
     expect {
-      c = Contact.new({ first_name: 'asd', last_name: 'bar', phone_number: '0745898947' })
-      p c.errors
+      c = Contact.create({ first_name: 'asd', last_name: 'bar', phone_number: '0745898947', email: 'contact@das.ro' })
     }.to change { Contact.count }.by 1
   end
 end

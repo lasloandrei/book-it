@@ -64,11 +64,16 @@ Rails.application.routes.draw do
   #   end
   get 'welcome/index'
   get 'welcome/foo'
-  
+  # Custom
+  get 'customs' => 'customs#index'
+  get 'customs/:id/show' => 'customs#show'
+  post 'customs' => 'customs#create'
   # Contacts + documentation
   get 'contacts' => 'contacts#index'
-  get 'contacts/:id' => 'contacts#show'
+  get 'contacts/:id/show' => 'contacts#show'
   post 'cotacts' => 'contacts#create'
+  patch 'contacts/:id/edit' => 'contacts#update'
+  delete 'contacts/:id/delete' => 'contacts#destroy'
   scope :api do
       get 'contacts' => 'contacts#index'
       get 'contacts/show'
@@ -84,8 +89,10 @@ Rails.application.routes.draw do
   
   # Reservations + documentation
   get 'reservations' => 'reservations#index'
-  get 'reservations/show'
+  get 'reservations/:id/show' => 'reservations#show'
   post 'reservations' => 'reservations#create'
+  patch 'reservations/:id/edit' => 'reservations#update'
+  delete 'reservations/:id/delete' => 'reservations#destroy'
   scope :api do
       get 'reservations' => 'reservations#index'
       get 'reservations/show'

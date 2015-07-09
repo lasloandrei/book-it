@@ -5,15 +5,20 @@ class ReservationsController < ApplicationController
   end
 
   def show
-    render json: Reservation.find(params[:id])
+    # render json: Reservation.find(params[:id])
+    @reservation = Reservation.find(params[:id])
   end
 
   def new
     @reservation = Reservation.new
   end
 
+  def reservation_params
+    params.require(:reservation).permit(:contact_id, :dining_table_id, :date, :observation)
+  end
+
   def create
-    @reservation = Reservation.new(contact_params)
+    @reservation = Reservation.new(reservation_params)
     if @reservation.save
       redirect_to reservations_url
     else
@@ -21,9 +26,22 @@ class ReservationsController < ApplicationController
     end
   end
 
-  private
+  def edit
+    @reservation = Reservation.find(params[:id])
+  end
 
-  def contact_params
-    params.require(:reservation).permit(:contact_id, :dining_table_id, :date, :observation)
+  def update
+    @reservation = Reservation.find(params[:id])
+      if @reservation.update_attributes(reservation_params)
+        redirect_to reservation_path, notice: 'Your Reservation was updated !'
+      else
+        render 'edit'
+      end
+  end
+  
+  def destroy
+    @reservation = Reservation.find(params[:id])
+    @reservation.destroy
+    redirect_to reservation_path, notice: 'Your Reservation was deleted !'
   end
 end
