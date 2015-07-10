@@ -1,4 +1,4 @@
- <%= form_for @custom do |f| %>
+ <%= form_for @contact do |f| %>
  	<div>
  	  <%= f.label :first_name %><br />
  	  <%= f.text_field :first_name %><br />
@@ -18,27 +18,32 @@
  	  <%= f.label :email %><br />
  	  <%= f.text_field :email %><br />
   </div>
- 	  
-  <div>
-    <%= f.label :contact_id, 'Contact ID' %><br />
-    <%= f.number_field :contact_id %><br />
-  </div>
-  <div>
-    <%= f.label :dining_table_id, 'Dining Table ID' %><br />
-    <%= f.number_field :dining_table_id %><br />
-  </div>
-
-  <div>
-    <%= f.label :date %><br />
-    <%= f.date_field :date %><br />
-  </div>
-
-  <div>
-    <%= f.label :observation %><br />
-    <%= f.text_field :observation %><br />
-  </div>
+ 	
+  <%=  f.fields_for :reservation do |ff| %>
   
-  <%= f.submit %><br />
- 
+  <div>
+    <%= ff.label :contact_id, 'Contact ID' %><br />
+    <%= ff.number_field :contact_id %><br />
+  </div>
+    
+  <div>
+    <%= ff.label :dining_table_id, 'Dining Table ID' %><br />
+    <%= ff.number_field :dining_table_id %><br />
+  </div>
+
+
+  <div>
+    <%= ff.label :date %><br />
+    <%= ff.date_field :date %><br />
+  </div>
+
+  <div>
+    <%= ff.label :observation %><br />
+    <%= ff.text_field :observation %><br />
+  </div>
+  <% end %>
+
+  <%= f.submit 'Create a complete detailed reservation'%><br />
+
  <% end %>
  <hr>

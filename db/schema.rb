@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 20150619084928) do
   end
 
   create_table "dining_tables", force: :cascade do |t|
-    t.integer  "uid"
+    t.integer  "uid" # Every table belongs to a Zone, uid is the table No. from a specific Zone
     t.integer  "seat"
     t.integer  "zone_id"
     t.datetime "created_at", null: false
