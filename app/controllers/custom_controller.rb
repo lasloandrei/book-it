@@ -9,14 +9,14 @@ class CustomController < ApplicationController
 
   def new
     @contact = Contact.new
-    @reservation = Reservation.new
+    @contact.reservations.build
+    
   end
 
   def create
-    @contact = Contact.new(contact_params)
-    @reservation = Reservation.new(reservation_params)
-    if @contact.save && @reservation.save
-      redirect_to welcome_path
+    @contact = Contact.new(custom_params)
+    if @contact.save
+      redirect_to custom_path
     else
           render 'new'
     end
@@ -26,12 +26,11 @@ class CustomController < ApplicationController
   end
 
   def contact_params
-    params.require(:contact).permit(:first_name, :last_name, :phone_number, :email, reservation:[:contact_id, :dining_table_id, :date, :observation])
+    params.require(:contact).permit(:first_name, :last_name, :phone_number, :email, reservations_attributes:[:contact_id, :dining_table_id, :date, :observation])
   end
-
+  
   def reservation_params
-    params.require(:reservation).permit(:contact_id, :dining_table_id, :date, :observation)
-  	
+
   end
 
   def update

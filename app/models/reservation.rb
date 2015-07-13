@@ -4,5 +4,4 @@ class Reservation < ActiveRecord::Base
   validates :contact_id, presence: true
   validates :dining_table_id,  presence: true
   validates :date, presence: true
-  # accepts_nested_attributes_for :contacts, :dining_tables
 end
