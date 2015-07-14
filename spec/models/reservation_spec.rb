@@ -1,21 +1,21 @@
 require 'rails_helper'
 require 'date'
 RSpec.describe Reservation, type: :model do
-  let(:reservation) { create :reservation }
+  
+  let(:dining_table) { create :dining_table }
+  let(:contact) { create :contact }
+  let(:reservation) { create :reservation, dining_table: dining_table, contact: contact }
 
   it 'requires a date' do
-    create :reservation, date: '2015-06-18'
     expect(reservation.date).to eq Date.parse('2015-06-18')
   end
 
   it 'requires a table' do
-    create :reservation, dining_table_id: 1
-    expect(reservation.dining_table_id).to eq 1
+    expect(reservation.dining_table).to eq dining_table
   end
 
   it 'requires a contact' do
-    create :reservation, contact_id: 3
-    expect(reservation.contact_id).to eq 3
+    expect(reservation.contact).to eq contact
   end
 
   it 'has an optional observation' do

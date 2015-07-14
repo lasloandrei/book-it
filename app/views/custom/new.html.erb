@@ -19,27 +19,26 @@
  	  <%= f.text_field :email %><br />
   </div>
  	
-  <%=  f.fields_for :reservation_attributes do |rf| %>
+  <%=  f.fields_for :reservations_attributes do |reservation| %>
   
   <div>
-    <%= rf.label :contact_id, 'Contact ID' %><br />
-    <%= rf.number_field :contact_id %><br />
+    <%= reservation.label :contact_id, 'Contact ID' %><br />
+    <%= reservation.number_field :contact_id %><br />
   </div>
     
   <div>
-    <%= rf.label :dining_table_id, 'Dining Table ID' %><br />
-    <%= rf.number_field :dining_table_id %><br />
+    <%= reservation.label :dining_table_id, 'Dining Table ID' %><br />
+    <%= reservation.number_field :dining_table_id %><br />
   </div>
 
 
   <div>
-    <%= rf.label :date %><br />
-    <%= rf.date_field :date %><br />
+    <%= reservation.label :date %><br />
+    <%= reservation.date_field :date %><br />
   </div>
-
   <div>
-    <%= rf.label :observation %><br />
-    <%= rf.text_field :observation %><br />
+    <%= reservation.label :observation %><br />
+    <%= reservation.text_field :observation %><br />
   </div>
   <% end %>
 
