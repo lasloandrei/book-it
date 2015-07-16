@@ -1,5 +1,8 @@
 class ReservationsController < ApplicationController
   api :GET, '/reservations'
+  api :POST, '/reservations/new'
+  api :PATCH, '/reservations/:id/edit'
+  api :DELETE, '/reservations/:id/destroy'
   def index
     render json: Reservation.all
   end

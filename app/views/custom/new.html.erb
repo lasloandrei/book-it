@@ -1,4 +1,4 @@
- <%= form_for @contact do |f| %>
+ <%= form_for @custom do |f| %>
  	<div>
  	  <%= f.label :first_name %><br />
  	  <%= f.text_field :first_name %><br />
@@ -20,11 +20,6 @@
   </div>
  	
   <%=  f.fields_for :reservations_attributes do |reservation| %>
-  
-  <div>
-    <%= reservation.label :contact_id, 'Contact ID' %><br />
-    <%= reservation.number_field :contact_id %><br />
-  </div>
     
   <div>
     <%= reservation.label :dining_table_id, 'Dining Table ID' %><br />
@@ -40,6 +35,7 @@
     <%= reservation.label :observation %><br />
     <%= reservation.text_field :observation %><br />
   </div>
+
   <% end %>
 
   <%= f.submit 'Create a complete detailed reservation'%><br />

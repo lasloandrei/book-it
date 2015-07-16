@@ -21,21 +21,21 @@ RSpec.describe ContactsController, type: :controller do
     end
   end
 
-  describe 'GET #show' do
-    it 'finds a specific contact' do
-      contact
-      get :show, id: contact.id
-      expect(json['id']).to eq contact.id
-    end
+  # describe 'GET #show' do
+  #   it 'finds a specific contact' do
+  #     contact
+  #     get :show, id: contact.id
+  #     expect(json['id']).to eq contact.id
+  #   end
 
-    it 'works for many contacts' do
-      contact
-      c2 = create :contact
+  #   it 'works for many contacts' do
+  #     contact
+  #     c2 = create :contact
 
-      get :show, id: c2.id, name: 'foo'
-      expect(json['id']).to eq c2.id
-    end
-  end
+  #     get :show, id: c2.id, name: 'foo'
+  #     expect(json['id']).to eq c2.id
+  #   end
+  # end
 
   describe 'POST #create' do
   end

@@ -8,12 +8,12 @@ class CustomController < ApplicationController
   end
 
   def new
-    @contact = Contact.new
-    
+    @custom = Contact.new
+    #@contact.reservation.build
   end
 
   def create
-    @contact = Contact.new(contact_params)
+    @contact = Contact.new(custom_params)
 
     if @contact.save
     	render json: @contact
@@ -25,9 +25,9 @@ class CustomController < ApplicationController
   def edit
   end
 
-  def contact_params
+  def custom_params
     params.require(:contact).permit(:first_name, :last_name, :phone_number, :email,
-    	reservations_attributes: [:contact_id, :dining_table_id, :date, :observation])
+    	reservations_attributes: [:dining_table_id, :date, :observation])
   end
   
   def reservation_params

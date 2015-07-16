@@ -29,6 +29,25 @@
  	  <%= f.label :email %><br />
  	  <%= f.text_field :email %><br />
   </div>
+
+  <%=  f.fields_for :reservations do |reservation| %>
+    
+  <div>
+    <%= reservation.label :dining_table_id, 'Dining Table ID' %><br />
+    <%= reservation.number_field :dining_table_id %><br />
+  </div>
+
+
+  <div>
+    <%= reservation.label :date %><br />
+    <%= reservation.date_field :date %><br />
+  </div>
+  <div>
+    <%= reservation.label :observation %><br />
+    <%= reservation.text_field :observation %><br />
+  </div>
+
+  <% end %>
  	
   <%= f.submit %><br />
  

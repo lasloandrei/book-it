@@ -73,12 +73,15 @@ Rails.application.routes.draw do
   # Contacts + documentation
   get 'contacts' => 'contacts#index'
   get 'contacts/:id/show' => 'contacts#show'
-  post 'cotacts' => 'contacts#create'
+  post 'contacts' => 'contacts#create'
   patch 'contacts/:id/edit' => 'contacts#update'
   delete 'contacts/:id/delete' => 'contacts#destroy'
   scope :api do
       get 'contacts' => 'contacts#index'
       get 'contacts/show'
+      post 'cotacts' => 'contacts#create'
+      patch 'contacts/:id/edit' => 'contacts#update'
+      delete 'contacts/:id/delete' => 'contacts#destroy'
   end
   
   # Dining Tables + documentation
@@ -98,6 +101,9 @@ Rails.application.routes.draw do
   scope :api do
       get 'reservations' => 'reservations#index'
       get 'reservations/show'
+      post 'reservations' => 'reservations#create'
+      patch 'reservations/:id/edit' => 'reservations#update'
+      delete 'reservations/:id/delete' => 'reservations#destroy'
   end
   
   # Zones + documentation
