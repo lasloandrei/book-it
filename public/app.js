@@ -59,10 +59,10 @@ bookIt.controller('DatepickerDemoCtrl', function ($scope) {
     $scope.opened = true;
   };
 
-  $scope.dateOptions = {
-    formatYear: 'yy',
-    startingDay: 1
-  };
+  // $scope.dateOptions = {
+  //   formatYear: 'yy',
+  //   startingDay: 1
+  // };
 
   // $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
   // $scope.format = $scope.formats[0];
@@ -102,6 +102,10 @@ bookIt.controller('DatepickerDemoCtrl', function ($scope) {
 
 bookIt.controller('FormController', ['$scope', '$http', function($scope, $http) {
       $scope.master = {};
+      $scope.first_name = 'test'
+      $scope.contact = {
+        first_name: 'asd'
+      };
 
       $scope.update = function(contact) {
         $scope.master = angular.copy(contact);
@@ -111,63 +115,62 @@ bookIt.controller('FormController', ['$scope', '$http', function($scope, $http) 
         
         alert('foo');
         
-        $http({
-            method: 'POST',
-            url: '/api/contacts',
-            data: JSON.stringify($scope.contact),
-            }).
-        success(function (data) {
-            //Showing Success message
-            $scope.status = "The Person Saved Successfully!!!";
-            //Loading people to the $scope
-            GetContacts();
-        })
-        .error(function (error) {
-            //Showing error message
-            $scope.status = 'Unable to create a person: ' + error.message;
-        }); 
+        // $http({
+        //     method: 'POST',
+        //     url: '/contacts',
+        //     data: JSON.stringify($scope.contact),
+        //     }).
+        // success(function (data) {
+        //     //Showing Success message
+        //     $scope.status = "The Person Saved Successfully!!!";
+        //     //Loading people to the $scope
+        //     GetContacts();
+        // })
+        // .error(function (error) {
+        //     //Showing error message
+        //     $scope.status = 'Unable to create a person: ' + error.message;
+        // }); 
       }
       
-      function GetContacts() {
-        //Defining the $http service for getting the people
-        $http.get('/contacts')
-        success(function (data) {
-            if (data != null || data != 'undefined') {
-               //Assigning people data to the $scope variable
-                $scope.contacts = data;
-                //Clearing the Person object in create context and Showing default Gender(Male) Checked
-                $scope.contact = {
-                   id: '',
-                   first_name: '',
-                   last_name: '',
-                   phone_number:'',
-                   email:'',
-               };
-           }
-        })
-        .error(function (error) {
-            //Showing error message
-            $scope.status = 'Unable to retrieve contacts' + error.message;
-        });
-      }
+      // function GetContacts() {
+      //   //Defining the $http service for getting the people
+      //   $http.get('/contacts')
+      //   success(function (data) {
+      //       if (data != null || data != 'undefined') {
+      //          //Assigning people data to the $scope variable
+      //           $scope.contacts = data;
+      //           //Clearing the Person object in create context and Showing default Gender(Male) Checked
+      //           $scope.contact = {
+                   
+      //              first_name: '',
+      //              last_name: '',
+      //              phone_number:'',
+      //              email:'', 
+      //          };
+      //      }
+      //   })
+      //   .error(function (error) {
+      //       //Showing error message
+      //       $scope.status = 'Unable to retrieve contacts' + error.message;
+      //   });
+      // }
 
       $scope.createContact = function () {
 
         $http({
             method: 'POST',
             url: '/contacts',
-            data: JSON.stringify($scope.contact),
+            data: { contact: $scope.contact }
             }).
         success(function (data) {
             //Showing Success message
-            $scope.status = "The Contact Saved Successfully!!!";
-            //Loading people to the $scope
-            GetContacts();
+            $scope.status = "The Contact Saved Successfully!!!";          
         })
         .error(function (error) {
             //Showing error message
             $scope.status = 'Unable to create a contact: ' + error.message;
         });
+        
       }
 
       $scope.reset = function() {

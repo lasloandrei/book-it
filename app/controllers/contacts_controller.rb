@@ -24,8 +24,9 @@ class ContactsController < ApplicationController
     if @contact.save
       redirect_to contacts_path, notice: 'Your Contact was created !'
       # flash[:notice] = "Contact successfully created."
+
     else
-      render 'new'
+      render json: @contact.errors
     end
   end
 
