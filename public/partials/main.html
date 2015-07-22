@@ -71,13 +71,13 @@ for( ; i < len; ++i ){document.createElement(t[i]);}
     color: black;
   }
   .partially button span {
-    background-color: orange;
+  	background-color: orange;
     border-radius: 32px;
     color: black;
   }
   #section {
-  padding-top: 8%;
-  padding-bottom: 5%;
+  	padding-top: 8%;
+	padding-bottom: 5%;
   }
 
 </style>
@@ -132,43 +132,41 @@ for( ; i < len; ++i ){document.createElement(t[i]);}
     
       <form name='contactForm' ng-controller="FormController">
       	
-      	<pre>Reservation for: <em>{{contact.reservation.date | date:'fullDate' }}</em> <br>Contact Details: <em>{{contact}} </em></pre>
+      	<pre>Reservation for: <em>{{reservation_date | date:'fullDate' }}</em> <br>Contact Details: <em>{{dining_table_id}}</em></pre>
+      	<pre>Reservation id: <em>{{zone.id}}</em></pre>
         
-        <div ng-controller="DatepickerDemoCtrl">
-		    
-
 	    <!-- RESERVATION DATE -->
 	    
 	    <div class="row">
 	        <div class="col-xs-4">
-              <label for="exampleDate">Date</label>  
-		        <div class='input-group date'>
-                     <input type="date" name='contact.reservation[date]' ng-model='contact.reservation.date' class="form-control" datepicker-popup ng-model="dt" />	
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                </span>
-                </div>
+            	<label for="exampleDate">Date</label>  
+		     	<div class='input-group date'>
+                	<input type="date" name='reservation[date]' ng-model='reservation_date' class="form-control" datepicker-popup ng-model="dt" />	
+               		<span class="input-group-addon">
+                    	<span class="glyphicon glyphicon-calendar"></span>
+                	</span>
+               	</div>
 	        </div>
-				
+
 		<!-- RESERVATION ZONE -->
-		<div class="col-xs-4" ng-controller="ZoneListController" >
+		<div class="col-xs-4">
 		  <label for="exampleDate">Zone</label>
-		    <select class="form-control" ng-model="contact.reservation.zone_id" ng-options="zone.name for zone in zones" ></select>
+		    <select class="form-control" name='zone[name]' ng-model="dining_table.zone_id" ng-options="zone.name for zone in zones" ></select>
 	    </div>	
 
 		<!-- DINING TABLE SEATS -->	
-		<div class="col-xs-4" ng-controller="DTablePickerController">
+		<div class="col-xs-4">
 			<label for="exampleDate">Seats / Dining Table</label>
-				  <select class="form-control" name='dining_table[id]' ng-model="contact.reservation.dining_table_id" ng-options="dining_table.seat for dining_table in dining_tables"></select>
+				<select class="form-control" name='dining_table[id]' ng-model="dining_table_id" ng-options="dining_table.id as dining_table.seat for dining_table in dining_tables"></select>
 		</div>
 		</div> <!-- /row-->
-	    </div>
-        <br>
+		<br />
+        
         <!-- CONTACT FIRST NAME -->
-  		<div class="form-group" ng-class="{ 'has-error' : contactForm.name.$invalid && !contactForm.name.$pristine }" >
+  		<div class="form-group" >
     		<label for="contact[first_name]">First Name</label>
    			<input type="text" name="contact[first_name]" ng-model="contact.first_name" class="form-control" placeholder="Eriksen" required>
-   			<p ng-show="contactForm.name.$invalid && !contactForm.name.$pristine" class="help-block">Your name is required.</p>
+  
   		</div>
 
         <!-- CONTACT LAST NAME -->
@@ -178,23 +176,21 @@ for( ; i < len; ++i ){document.createElement(t[i]);}
   		</div>
 
         <!-- CONTACT PHONE NUMBER -->
-  		<div class="form-group" ng-class="{ 'has-error' : contactForm.contact[phone_number]$invalid && !contactForm.contact[phone_number].$pristine }" >
+  		<div class="form-group" >
     		<label for="contact[phone_number]">Phone Number</label>
     		<input type="text" name="contact[phone_number]" ng-model="contact.phone_number" class="form-control" required>
-  		    <p ng-show="contactForm.contact[phone_number].$invalid && !contactForm.contact[phone_number].$pristine" class="help-block">Your name is required.</p>
   		</div>
 
   		<!-- CONTACT EMAIL -->
-  		<div class="form-group" ng-class="{ 'has-error' : contactForm.email.$invalid && !contactForm.email.$pristine }">
+  		<div class="form-group">
 		    <label for="contact[email]">Email</label>
 		    <input type="text" name="contact[email]" ng-model="contact.email" class="form-control" placeholder="george.eriksen@example.com">
-		    <p ng-show="contactForm.email.$invalid && !contactForm.email.$pristine" class="help-block">Enter a valid email.</p>
   		</div>
 
   		<!-- RESERVATION OBSERVATION -->
   		<div class="form-group">
 		    <label for="InputEmail">Observations</label>
-			<textarea class="form-control" rows="3" name='reservation[observation]' ng-model='contact.reservation.observation'></textarea>	     		
+			<textarea class="form-control" rows="3" name='reservation[observation]' ng-model='reservation_observation'></textarea>	     		
 		</div>
 
   		<hr />
