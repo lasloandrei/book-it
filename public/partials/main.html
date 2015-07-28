@@ -59,11 +59,13 @@ for( ; i < len; ++i ){document.createElement(t[i]);}
 
 <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="http://berariah.ro/g=app.v59.css" />
+
 <!--[if lt IE 9]> <link rel="stylesheet" href="http://berariah.ro/g=app-ie.v59.css"> <![endif]-->
 <script src="http://berariah.ro/g=modernizr.v59.js"></script>
 <!--[if lt IE 9]> <script src="http://berariah.ro/js/html5shiv.min.js"></script> <![endif]-->
 <script src="http://berariah.ro/g=head.v59.js"></script>
 <script src="path-to/js/bootstrap-select.min.js"></script>
+
 <style>
   .full button span {
     background-color: limegreen;
@@ -129,73 +131,77 @@ for( ; i < len; ++i ){document.createElement(t[i]);}
 	</div><!-- /.ajax-container-->
 
 	<div id="section" class="container">
-    
-      <form name='contactForm' ng-controller="FormController">
+    	<form name='contactForm' ng-controller="FormController">
       	
-      	<pre>Reservation for: <em>{{reservation_date | date:'fullDate' }}</em> <br>Contact Details: <em>{{dining_table_id}}</em></pre>
-      	<pre>Reservation id: <em>{{zone.id}}</em></pre>
+      		<pre>Reservation for: <em>{{reservation_date | date:'fullDate' }}<br>Reservation starting hour: {{reservation_date| date:'shortTime' }}</em> <br>Contact Details: <em>{{contact}} {{dining_table_id}}</em></pre>
+      		<pre>Reservation id: <em>{{dining_table.zone_id}}</em></pre>
         
-	    <!-- RESERVATION DATE -->
 	    
-	    <div class="row">
-	        <div class="col-xs-4">
-            	<label for="exampleDate">Date</label>  
-		     	<div class='input-group date'>
-                	<input type="date" name='reservation[date]' ng-model='reservation_date' class="form-control" datepicker-popup ng-model="dt" />	
-               		<span class="input-group-addon">
-                    	<span class="glyphicon glyphicon-calendar"></span>
-                	</span>
-               	</div>
-	        </div>
+	    
+	    	<div class="row">
+	    	<!-- RESERVATION DATE -->
+		        <div class="col-xs-3">
+	            	<label for="exampleDate">Date</label>
+					<p class="input-group">
+	              		<input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="reservation_date" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+	              		<span class="input-group-btn">
+	                		<button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+	     			    </span>
+	            	</p>
+	        	</div>
+	            
+	            <div class="col-xs-3">
+	            	<timepicker ng-model="reservation_date" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+		        </div>	
 
-		<!-- RESERVATION ZONE -->
-		<div class="col-xs-4">
-		  <label for="exampleDate">Zone</label>
-		    <select class="form-control" name='zone[name]' ng-model="dining_table.zone_id" ng-options="zone.name for zone in zones" ></select>
-	    </div>	
+				<!-- RESERVATION ZONE -->
+				<div class="col-xs-3">
+					<label for="exampleDate">Zone</label>
+					<select class="form-control" name='zone[name]' ng-change="foo()" ng-model="dining_table.zone_id" ng-options="zone.id as zone.name for zone in zones" ></select>
+			    </div>
 
-		<!-- DINING TABLE SEATS -->	
-		<div class="col-xs-4">
-			<label for="exampleDate">Seats / Dining Table</label>
-				<select class="form-control" name='dining_table[id]' ng-model="dining_table_id" ng-options="dining_table.id as dining_table.seat for dining_table in dining_tables"></select>
-		</div>
-		</div> <!-- /row-->
-		<br />
-        
-        <!-- CONTACT FIRST NAME -->
-  		<div class="form-group" >
-    		<label for="contact[first_name]">First Name</label>
-   			<input type="text" name="contact[first_name]" ng-model="contact.first_name" class="form-control" placeholder="Eriksen" required>
-  
-  		</div>
+				<!-- DINING TABLE SEATS -->	
+				<div class="col-xs-3">
+					<label for="exampleDate">Seats / Dining Table</label>
+					<select class="form-control" name='dining_table[id]' ng-model="dining_table_id" ng-options="dining_table.id as dining_table.seat for dining_table in dining_tables"></select>
+				</div>
+			</div> <!-- /row-->
+			<br />
 
-        <!-- CONTACT LAST NAME -->
-  		<div class="form-group" >
-    		<label for="contact[last_name]">Last Name</label>
-    		<input type="text" name="contact[last_name]" ng-model="contact.last_name" class="form-control" placeholder="George" required>
-  		</div>
+	        <!-- CONTACT FIRST NAME -->
+	  		<div class="form-group" >
+	    		<label for="contact[first_name]">First Name</label>
+	   			<input type="text" name="contact[first_name]" ng-model="contact.first_name" class="form-control" placeholder="Eriksen" required>
+	  
+	  		</div>
 
-        <!-- CONTACT PHONE NUMBER -->
-  		<div class="form-group" >
-    		<label for="contact[phone_number]">Phone Number</label>
-    		<input type="text" name="contact[phone_number]" ng-model="contact.phone_number" class="form-control" required>
-  		</div>
+	        <!-- CONTACT LAST NAME -->
+	  		<div class="form-group" >
+	    		<label for="contact[last_name]">Last Name</label>
+	    		<input type="text" name="contact[last_name]" ng-model="contact.last_name" class="form-control" placeholder="George" required>
+	  		</div>
 
-  		<!-- CONTACT EMAIL -->
-  		<div class="form-group">
-		    <label for="contact[email]">Email</label>
-		    <input type="text" name="contact[email]" ng-model="contact.email" class="form-control" placeholder="george.eriksen@example.com">
-  		</div>
+	        <!-- CONTACT PHONE NUMBER -->
+	  		<div class="form-group" >
+	    		<label for="contact[phone_number]">Phone Number</label>
+	    		<input type="text" name="contact[phone_number]" ng-model="contact.phone_number" class="form-control" required>
+	  		</div>
 
-  		<!-- RESERVATION OBSERVATION -->
-  		<div class="form-group">
-		    <label for="InputEmail">Observations</label>
-			<textarea class="form-control" rows="3" name='reservation[observation]' ng-model='reservation_observation'></textarea>	     		
-		</div>
+	  		<!-- CONTACT EMAIL -->
+	  		<div class="form-group">
+			    <label for="contact[email]">Email</label>
+			    <input type="text" name="contact[email]" ng-model="contact.email" class="form-control" placeholder="george.eriksen@example.com">
+	  		</div>
 
-  		<hr />
-  		<!-- SUBMIT BUTTON -->	
-  		<button ng-click='createContact()' name="commit" class="btn btn-default" >Submit</button>
+	  		<!-- RESERVATION OBSERVATION -->
+	  		<div class="form-group">
+			    <label for="InputEmail">Observations</label>
+				<textarea class="form-control" rows="3" name='reservation[observation]' ng-model='reservation_observation'></textarea>
+			</div>
+
+	  		<hr />
+	  		<!-- SUBMIT BUTTON -->	
+	  		<button ng-click='createContact()' name="commit" class="btn btn-default" >Submit</button>
 		</form>
 	</div>
 </body>

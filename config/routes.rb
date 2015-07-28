@@ -108,6 +108,7 @@ Rails.application.routes.draw do
   
   # Zones + documentation
   get 'zones' => 'zones#index'
+  get 'zones/:zone_id/dining_tables' => 'dining_tables#index'
   get 'zones/show'
   scope :api do
       get 'zones' => 'zones#index'
