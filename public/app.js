@@ -21,10 +21,6 @@ bookIt.config(['$routeProvider',
 
 bookIt.controller('FormController', ['$scope', '$http', function($scope, $http) {
   $scope.master = {};
-  $scope.first_name = 'test'
-  $scope.contact = {
-    first_name: 'asd'
-  };
   $scope.dining_tables = [];
 
 
@@ -33,18 +29,23 @@ bookIt.controller('FormController', ['$scope', '$http', function($scope, $http) 
     $scope.zones = data;
   })
 
-  $http.get('/dining_tables').
-    success(function(data) {
-    $scope.dining_tables = data;
-  })
+  // $http.get('/dining_tables').
+  //   success(function(data) {
+  //   $scope.dining_tables = data;
+  // })
 
   $scope.dt = new Date();
 
 
 
-  $scope.foo = function ($http) {
-    $http.get('zones/:zone_id/dining_tables')
-    alert("ok cool now get the dining_tables")
+  $scope.filterOutDiningTables = function () {
+    $http.get('/zones/' + $scope.dining_table.zone_id + '/dining_tables').
+      success(function(data) {
+        if (data.length == 0) {
+          $scope.error = 'no data'
+        }
+        $scope.dining_tables = data;
+      })
   }
 
   $scope.mytime = new Date();
@@ -122,10 +123,12 @@ bookIt.controller('FormController', ['$scope', '$http', function($scope, $http) 
       method: 'POST',
       url: '/contacts',
       data: { contact: params }
+
       }).
   success(function (data) {
       //Showing Success message
-      $scope.status = "The Contact Saved Successfully!!!";          
+      $scope.status = "The Contact Saved Successfully!!!";
+          
   })
   .error(function (error) {
       //Showing error message
@@ -133,12 +136,4 @@ bookIt.controller('FormController', ['$scope', '$http', function($scope, $http) 
     });
 
   } 
-
-  $scope.reset = function() {
-    $scope.contact = angular.copy($scope.master);
-  };
-
-  $scope.reset();
-
-
 }]);

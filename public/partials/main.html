@@ -135,35 +135,36 @@ for( ; i < len; ++i ){document.createElement(t[i]);}
       	
       		<pre>Reservation for: <em>{{reservation_date | date:'fullDate' }}<br>Reservation starting hour: {{reservation_date| date:'shortTime' }}</em> <br>Contact Details: <em>{{contact}} {{dining_table_id}}</em></pre>
       		<pre>Reservation id: <em>{{dining_table.zone_id}}</em></pre>
+      		{{error}}
         
 	    
 	    
 	    	<div class="row">
 	    	<!-- RESERVATION DATE -->
-		        <div class="col-xs-3">
-	            	<label for="exampleDate">Date</label>
+		        <div class="col-xs-4">
+	            	<label for="exampleDate">Date & Time</label>
 					<p class="input-group">
 	              		<input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="reservation_date" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
 	              		<span class="input-group-btn">
 	                		<button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
 	     			    </span>
 	            	</p>
-	        	</div>
-	            
-	            <div class="col-xs-3">
-	            	<timepicker ng-model="reservation_date" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
-		        </div>	
+	        		
+	        		<div class="col-xs-4">
+	               		<timepicker ng-model="reservation_date" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+		        	</div>	
+	        	</div>	
 
 				<!-- RESERVATION ZONE -->
-				<div class="col-xs-3">
+				<div class="col-xs-4">
 					<label for="exampleDate">Zone</label>
-					<select class="form-control" name='zone[name]' ng-change="foo()" ng-model="dining_table.zone_id" ng-options="zone.id as zone.name for zone in zones" ></select>
+					<select class="form-control" name='zone[name]' ng-change="filterOutDiningTables()" ng-model="dining_table.zone_id" ng-options="zone.id as zone.name for zone in zones" ></select>
 			    </div>
 
 				<!-- DINING TABLE SEATS -->	
-				<div class="col-xs-3">
+				<div class="col-xs-4">
 					<label for="exampleDate">Seats / Dining Table</label>
-					<select class="form-control" name='dining_table[id]' ng-model="dining_table_id" ng-options="dining_table.id as dining_table.seat for dining_table in dining_tables"></select>
+					<select class="form-control" name='dining_table[id]' ng-model="dining_table_id" ng-options="dining_table.id as dining_table.seat +' (' + dining_table.zone_id + ')' for dining_table in dining_tables | orderBy:'seat'"></select>
 				</div>
 			</div> <!-- /row-->
 			<br />
