@@ -47,7 +47,14 @@ angular.module('ui.bootstrap.datetimepicker', ['ui.bootstrap.dateparser', 'ui.bo
                     // default picker view
                     scope.showPicker = scope.enableDate ? 'date' : 'time';
 
-                    // get text
+                    // default text
+                    scope.todayText = scope.todayText || 'Today';
+                    scope.nowText = scope.nowText || 'Now';
+                    scope.clearText = scope.clearText || 'Clear';
+                    scope.closeText = scope.closeText || 'Close';
+                    scope.dateText = scope.dateText || 'Date';
+                    scope.timeText = scope.timeText || 'Time';
+
                     scope.getText = function (key) {
                         return scope[key + 'Text'] || uiDatetimePickerConfig[key + 'Text'];
                     };
@@ -59,12 +66,12 @@ angular.module('ui.bootstrap.datetimepicker', ['ui.bootstrap.dateparser', 'ui.bo
 
                     // popup element used to display calendar
                     var popupEl = angular.element('' +
-                        '<div date-picker-wrap ng-show="showPicker == \'date\'">' +
-                        '<div datepicker></div>' +
-                        '</div>' +
-                        '<div time-picker-wrap ng-show="showPicker == \'time\'">' +
-                        '<div timepicker style="margin:0 auto"></div>' +
-                        '</div>');
+                    '<div date-picker-wrap ng-show="showPicker == \'date\'">' +
+                    '<div datepicker></div>' +
+                    '</div>' +
+                    '<div time-picker-wrap ng-show="showPicker == \'time\'">' +
+                    '<div timepicker style="margin:0 auto"></div>' +
+                    '</div>');
 
                     // get attributes from directive
                     popupEl.attr({
@@ -94,7 +101,7 @@ angular.module('ui.bootstrap.datetimepicker', ['ui.bootstrap.dateparser', 'ui.bo
 
                     // set datepickerMode to day by default as need to create watch
                     // this gets round issue#5 where by the highlight is not shown
-                    if (!angular.isDefined(attrs['datepickerMode'])) attrs['datepickerMode'] = 'day';
+                    if (!attrs['datepickerMode']) attrs['datepickerMode'] = 'day';
 
                     scope.watchData = {};
                     angular.forEach(['minDate', 'maxDate', 'datepickerMode'], function (key) {
@@ -109,12 +116,13 @@ angular.module('ui.bootstrap.datetimepicker', ['ui.bootstrap.dateparser', 'ui.bo
                             // Propagate changes from datepicker to outside
                             if (key === 'datepickerMode') {
                                 var setAttribute = getAttribute.assign;
-                                scope.$watch('watchData.' + key, function(value, oldvalue) {
-                                    if (angular.isFunction(setAttribute) && value !== oldvalue ) {
+                                scope.$watch('watchData.' + key, function (value, oldvalue) {
+                                    if (value !== oldvalue) {
                                         setAttribute(scope.$parent, value);
                                     }
                                 });
-                            }                        }
+                            }
+                        }
                     });
 
                     if (attrs.dateDisabled) {
@@ -183,16 +191,15 @@ angular.module('ui.bootstrap.datetimepicker', ['ui.bootstrap.dateparser', 'ui.bo
                         ngModel.$setViewValue(scope.date);
                         ngModel.$render();
 
-                        if (dt === null) {
-                            scope.close();
-                        } else if (closeOnDateSelection) {
+                        if (closeOnDateSelection) {
                             // do not close when using timePicker
                             if (scope.showPicker != 'time') {
                                 // if time is enabled, swap to timePicker
                                 if (scope.enableTime) {
                                     scope.showPicker = 'time';
                                 } else {
-                                    scope.close();
+                                    scope.isOpen = false;
+                                    element[0].focus();
                                 }
                             }
                         }
@@ -240,26 +247,15 @@ angular.module('ui.bootstrap.datetimepicker', ['ui.bootstrap.dateparser', 'ui.bo
                     };
 
                     scope.$watch('isOpen', function (value) {
-                        scope.dropdownStyle = {
-                            display: value ? 'block' : 'none'
-                        };
-
                         if (value) {
                             scope.$broadcast('datepicker.focus');
 
-                            var position = appendToBody ? $position.offset(element) : $position.position(element);
+                            scope.position = appendToBody ? $position.offset(element) : $position.position(element);
+                            scope.position.top = scope.position.top + element.prop('offsetHeight');
 
-                            if (appendToBody) {
-                                scope.dropdownStyle.top = (position.top + element.prop('offsetHeight')) +'px';
-                            } else {
-                                scope.dropdownStyle.top = undefined;
-                            }
-
-                            scope.dropdownStyle.left = position.left + 'px';
-
-                            $document.bind('click', documentClickBind);
+                            $document.bind('mousedown', documentClickBind);
                         } else {
-                            $document.unbind('click', documentClickBind);
+                            $document.unbind('mousedown', documentClickBind);
                         }
                     });
 
@@ -305,7 +301,7 @@ angular.module('ui.bootstrap.datetimepicker', ['ui.bootstrap.dateparser', 'ui.bo
                     scope.$on('$destroy', function () {
                         $popup.remove();
                         element.unbind('keydown', keydown);
-                        $document.unbind('click', documentClickBind);
+                        $document.unbind('mousedown', documentClickBind);
                     });
                 }
             };
@@ -318,7 +314,7 @@ angular.module('ui.bootstrap.datetimepicker', ['ui.bootstrap.dateparser', 'ui.bo
             transclude: true,
             templateUrl: 'template/datetime-picker.html',
             link: function (scope, element, attrs) {
-                element.bind('click', function (event) {
+                element.bind('mousedown', function (event) {
                     event.preventDefault();
                     event.stopPropagation();
                 });
@@ -333,10 +329,18 @@ angular.module('ui.bootstrap.datetimepicker', ['ui.bootstrap.dateparser', 'ui.bo
             transclude: true,
             templateUrl: 'template/datetime-picker.html',
             link: function (scope, element, attrs) {
-                element.bind('click', function (event) {
+                element.bind('mousedown', function (event) {
                     event.preventDefault();
                     event.stopPropagation();
                 });
             }
         };
     });
+angular.module('ui.bootstrap.datetimepicker').run(['$templateCache', function($templateCache) {
+  'use strict';
+
+  $templateCache.put('template/datetime-picker.html',
+    "<ul class=\"dropdown-menu dropdown-menu-left\" ng-style=\"{display: (isOpen && 'block') || 'none', top: position.top+'px', left: position.left+'px'}\" style=left:inherit ng-keydown=keydown($event)><li style=\"padding:0 5px 5px 5px\" class=datetime-picker><div ng-transclude></div></li><li ng-if=showButtonBar style=padding:5px><span class=\"btn-group pull-left\" style=margin-right:10px><button ng-if=\"showPicker == 'date'\" type=button class=\"btn btn-sm btn-info\" ng-click=\"select('today')\" ng-disabled=isTodayDisabled()>{{ getText('today') }}</button> <button ng-if=\"showPicker == 'time'\" type=button class=\"btn btn-sm btn-info\" ng-click=\"select('now')\" ng-disabled=isTodayDisabled()>{{ getText('now') }}</button> <button type=button class=\"btn btn-sm btn-danger\" ng-click=select(null)>{{ getText('clear') }}</button></span> <span class=\"btn-group pull-right\"><button ng-if=\"showPicker == 'date' && enableTime\" type=button class=\"btn btn-sm btn-default\" ng-click=\"changePicker('time')\">{{ getText('time')}}</button> <button ng-if=\"showPicker == 'time' && enableDate\" type=button class=\"btn btn-sm btn-default\" ng-click=\"changePicker('date')\">{{ getText('date')}}</button> <button type=button class=\"btn btn-sm btn-success\" ng-click=close()>{{ getText('close') }}</button></span></li></ul>"
+  );
+
+}]);

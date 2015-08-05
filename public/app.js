@@ -1,6 +1,6 @@
 //= require moment
 //= require bootstrap-datetimepicker
-var bookIt = angular.module('bookIt', ['ngRoute', 'ui.bootstrap']);
+var bookIt = angular.module('bookIt', ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepicker']);
 
 bookIt.config(['$routeProvider',
   function($routeProvider) {
@@ -48,60 +48,64 @@ bookIt.controller('FormController', ['$scope', '$http', function($scope, $http) 
       })
   }
 
-  $scope.mytime = new Date();
+$scope.dates = {
+        date1: new Date('01 Mar 2015 00:00:00.000'),
+        date2: new Date(),
+        date3: new Date(),
+        date4: new Date('01 Mar 2015'),
+        date5: new Date('10 Mar 2015'),
+        date6: new Date(),
+        date7: new Date(),
+        date8: new Date()
+    };
 
-  $scope.hstep = 1;
-  $scope.mstep = 1;
+    $scope.open = {
+        date1: false,
+        date2: false,
+        date3: false,
+        date4: false,
+        date5: false,
+        date6: false,
+        date7: false,
+        date8: false
+    };
 
-  $scope.options = {
-    hstep: [1, 2, 3],
-    mstep: [1, 5, 10, 15]
-  };
+    // Disable weekend selection
+    $scope.disabled = function(date, mode) {
+        return (mode === 'day' && (new Date().toDateString() == date.toDateString()));
+    };
 
-  $scope.ismeridian = true;
-  $scope.toggleMode = function() {
-    $scope.ismeridian = ! $scope.ismeridian;
-  };
-      
- $scope.dateTimeNow = function() {
-    $scope.date = new Date();
-  };
-  $scope.dateTimeNow();
+    $scope.dateOptions = {
+        showWeeks: false,
+        startingDay: 1
+    };
 
-  $scope.dateOptions = {
-    startingDay: 1,
-    showWeeks: false
-  };
-  
-  $scope.$watch("date", function(value) {
-    console.log('New date value:' + value);
-  }, true);
-  
-  $scope.resetHours = function() {
-    $scope.date.setHours(1);}
+    $scope.timeOptions = {
+        readonlyInput: false,
+        showMeridian: false
+    };
 
-  $scope.open = function($event) {
-    $event.preventDefault();
-    $event.stopPropagation();
+    $scope.openCalendar = function(e, date) {
+        e.preventDefault();
+        e.stopPropagation();
 
-    $scope.opened = true;
-  };
+        $scope.open[date] = true;
+    };
 
-  $scope.getDayClass = function(date, mode) {
-    if (mode === 'day') {
-      var dayToCheck = new Date(date).setHours(0,0,0,0);
-
-      for (var i=0;i<$scope.events.length;i++){
-        var currentDay = new Date($scope.events[i].date).setHours(0,0,0,0);
-
-        if (dayToCheck === currentDay) {
-          return $scope.events[i].status;
+    // watch date4 and date5 to calculate difference
+    $scope.$watch(function() {
+        return $scope.dates;
+    }, function() {
+        if ($scope.dates.date4 && $scope.dates.date5) {
+            var diff = $scope.dates.date4.getTime() - $scope.dates.date5.getTime();
+            $scope.dayRange = Math.round(Math.abs(diff/(1000*60*60*24)))
+        } else {
+            $scope.dayRange = 'n/a';
         }
-      }
-    }
+    }, true);
 
-    return '';
-  };
+
+
 
   $scope.update = function(contact) {
     $scope.master = angular.copy(contact);

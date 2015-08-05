@@ -65,6 +65,9 @@ for( ; i < len; ++i ){document.createElement(t[i]);}
 <!--[if lt IE 9]> <script src="http://berariah.ro/js/html5shiv.min.js"></script> <![endif]-->
 <script src="http://berariah.ro/g=head.v59.js"></script>
 <script src="path-to/js/bootstrap-select.min.js"></script>
+<script>
+  $(function () { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); } );
+</script>
 
 <style>
   .full button span {
@@ -143,20 +146,17 @@ for( ; i < len; ++i ){document.createElement(t[i]);}
 	    	<!-- RESERVATION DATE -->
 		        <div class="col-xs-4">
 	            	<label for="exampleDate">Date & Time</label>
-					<p class="input-group">
-	              		<input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="reservation_date" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
-	              		<span class="input-group-btn">
-	                		<button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-	     			    </span>
-	            	</p>
-	        		
-	        		<div class="col-xs-4">
-	               		<timepicker ng-model="reservation_date" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
-		        	</div>	
-	        	</div>	
+
+	            	<p class="input-group">
+                		<input type="text" class="form-control" datetime-picker="dd MMM yyyy HH:mm" ng-model="reservation_date" is-open="open.date3" ng-required='true'/>
+                		<span class="input-group-btn">
+                    		<button type="button" class="btn btn-default" ng-click="openCalendar($event, 'date3')"><i class="fa fa-calendar"></i></button>
+                		</span>
+            		</p>
+            	</div>
 
 				<!-- RESERVATION ZONE -->
-				<div class="col-xs-4">
+				<div class="col-xs-4" dropdown>
 					<label for="exampleDate">Zone</label>
 					<select class="form-control" name='zone[name]' ng-change="filterOutDiningTables()" ng-model="dining_table.zone_id" ng-options="zone.id as zone.name for zone in zones" ></select>
 			    </div>

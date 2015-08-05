@@ -1,185 +1,348 @@
-angular.module('ui.bootstrap.datetimepicker',
-    ["ui.bootstrap.dateparser", "ui.bootstrap.datepicker", "ui.bootstrap.timepicker"]
-  )
-  .directive('datepickerPopup', function (){
-   return {
-    restrict: 'EAC',
-    require: 'ngModel',
-    link: function(scope, element, attr, controller) {
-      //remove the default formatter from the input directive to prevent conflict
-      controller.$formatters.shift();
-    }
-   }
-  })
-  .directive('datetimepicker', [
-    function() {
-      if (angular.version.full < '1.1.4') {
-        return {
-          restrict: 'EA',
-          template: "<div class=\"alert alert-danger\">Angular 1.1.4 or above is required for datetimepicker to work correctly</div>"
-        };
-      }
-      return {
-        restrict: 'EA',
-        require: 'ngModel',
-        scope: {
-          ngModel: '=',
-          dayFormat: "=",
-          monthFormat: "=",
-          yearFormat: "=",
-          dayHeaderFormat: "=",
-          dayTitleFormat: "=",
-          monthTitleFormat: "=",
-          showWeeks: "=",
-          startingDay: "=",
-          yearRange: "=",
-          dateFormat: "=",
-          minDate: "=",
-          maxDate: "=",
-          dateOptions: "=",
-          dateDisabled: "&",
-          hourStep: "=",
-          minuteStep: "=",
-          showMeridian: "=",
-          meredians: "=",
-          mousewheel: "=",
-          readonlyTime: "=",
-          readonlyDate: "="
-        },
-        template: function(elem, attrs) {
-          function dashCase(name, separator) {
-            return name.replace(/[A-Z]/g, function(letter, pos) {
-              return (pos ? '-' : '') + letter.toLowerCase();
-            });
-          }
+angular.module('ui.bootstrap.datetimepicker', ['ui.bootstrap.dateparser', 'ui.bootstrap.position'])
+    .constant('uiDatetimePickerConfig', {
+        dateFormat: 'yyyy-MM-dd HH:mm',
+        enableDate: true,
+        enableTime: true,
+        todayText: 'Today',
+        nowText: 'Now',
+        clearText: 'Clear',
+        closeText: 'Done',
+        dateText: 'Date',
+        timeText: 'Time',
+        closeOnDateSelection: true,
+        appendToBody: false,
+        showButtonBar: true
+    })
+    .directive('datetimePicker', ['$compile', '$parse', '$document', '$timeout', '$position', 'dateFilter', 'dateParser', 'uiDatetimePickerConfig',
+        function ($compile, $parse, $document, $timeout, $position, dateFilter, dateParser, uiDatetimePickerConfig) {
+            return {
+                restrict: 'A',
+                require: 'ngModel',
+                scope: {
+                    isOpen: '=?',
+                    enableDate: '=?',
+                    enableTime: '=?',
+                    todayText: '@',
+                    nowText: '@',
+                    dateText: '@',
+                    timeText: '@',
+                    clearText: '@',
+                    closeText: '@',
+                    dateDisabled: '&'
+                },
+                link: function (scope, element, attrs, ngModel) {
+                    var dateFormat = uiDatetimePickerConfig.dateFormat, currentDate,
+                        closeOnDateSelection = angular.isDefined(attrs.closeOnDateSelection) ? scope.$parent.$eval(attrs.closeOnDateSelection) : uiDatetimePickerConfig.closeOnDateSelection,
+                        appendToBody = angular.isDefined(attrs.datepickerAppendToBody) ? scope.$parent.$eval(attrs.datepickerAppendToBody) : uiDatetimePickerConfig.appendToBody;
 
-          function createAttr(innerAttr, dateTimeAttrOpt) {
-            var dateTimeAttr = angular.isDefined(dateTimeAttrOpt) ? dateTimeAttrOpt : innerAttr;
-            if (attrs[dateTimeAttr]) {
-              return dashCase(innerAttr) + "=\"" + dateTimeAttr + "\" ";
-            } else {
-              return '';
-            }
-          }
+                    scope.showButtonBar = angular.isDefined(attrs.showButtonBar) ? scope.$parent.$eval(attrs.showButtonBar) : uiDatetimePickerConfig.showButtonBar;
 
-          function createFuncAttr(innerAttr, funcArgs, dateTimeAttrOpt) {
-            var dateTimeAttr = angular.isDefined(dateTimeAttrOpt) ? dateTimeAttrOpt : innerAttr;
-            if (attrs[dateTimeAttr]) {
-              return dashCase(innerAttr) + "=\"" + dateTimeAttr + "({" + funcArgs + "})\" ";
-            } else {
-              return '';
-            }
-          }
+                    // determine which pickers should be available. Defaults to date and time
+                    scope.enableDate = angular.isDefined(scope.enableDate) ? scope.enableDate : uiDatetimePickerConfig.enableDate;
+                    scope.enableTime = angular.isDefined(scope.enableTime) ? scope.enableTime : uiDatetimePickerConfig.enableTime;
 
-          function createEvalAttr(innerAttr, dateTimeAttrOpt) {
-            var dateTimeAttr = angular.isDefined(dateTimeAttrOpt) ? dateTimeAttrOpt : innerAttr;
-            if (attrs[dateTimeAttr]) {
-              return dashCase(innerAttr) + "=\"" + attrs[dateTimeAttr] + "\" ";
-            } else {
-              return dashCase(innerAttr) + " ";
-            }
-          }
+                    // default picker view
+                    scope.showPicker = scope.enableDate ? 'date' : 'time';
 
-          function createAttrConcat(previousAttrs, attr) {
-            return previousAttrs + createAttr.apply(null, attr)
-          }
-          var tmpl = "<div class=\"datetimepicker-wrapper\">" +
-            "<input class=\"form-control\" type=\"text\" " +
-              "ng-click=\"open($event)\" " +
-              "ng-change=\"date_change($event)\" " +
-              "is-open=\"opened\" " +
-              "ng-model=\"ngModel\" " + [
-              ["minDate"],
-              ["maxDate"],
-              ["dayFormat"],
-              ["monthFormat"],
-              ["yearFormat"],
-              ["dayHeaderFormat"],
-              ["dayTitleFormat"],
-              ["monthTitleFormat"],
-              ["startingDay"],
-              ["yearRange"],
-              ["datepickerOptions", "dateOptions"],
-              ["ngDisabled", "readonlyDate"]
-          ].reduce(createAttrConcat, '') +
-            createFuncAttr("dateDisabled", "date: date, mode: mode") +
-            createEvalAttr("datepickerPopup", "dateFormat") +
-            createEvalAttr("currentText", "currentText") +
-            createEvalAttr("clearText", "clearText") +
-            createEvalAttr("closeText", "closeText") +
-            createEvalAttr("placeholder", "placeholder") +
-            "/>\n" +
-            "</div>\n" +
-            "<div class=\"datetimepicker-wrapper\" ng-model=\"time\" ng-change=\"time_change()\" style=\"display:inline-block\">\n" +
-            "<timepicker " + [
-              ["hourStep"],
-              ["minuteStep"],
-              ["showMeridian"],
-              ["meredians"],
-              ["mousewheel"]
-              ["readonlyInput", "readonlyTime"]
-          ].reduce(createAttrConcat, '') +
-            "></timepicker>\n" +
-            "</div>";
-          return tmpl;
-        },
-        controller: ['$scope',
-          function($scope) {
-            $scope.date_change = function() {
-              // If we changed the date only, set the time (h,m) on it.
-              // This is important in case the previous date was null.
-              // This solves the issue when the user set a date and time, cleared the date, and chose another date,
-              // and then, the time was cleared too - which is unexpected
-              var time = $scope.time;
-              if ($scope.ngModel) { // if this is null, that's because the user cleared the date field
-                $scope.ngModel.setHours(time.getHours(), time.getMinutes(), 0, 0);
-              }
-            };
+                    // get text
+                    scope.getText = function (key) {
+                        return scope[key + 'Text'] || uiDatetimePickerConfig[key + 'Text'];
+                    };
 
-            $scope.time_change = function() {
-              if ($scope.ngModel && $scope.time) {
-                // convert from ISO format to Date
-                if (!($scope.ngModel instanceof Date)) $scope.ngModel = new Date($scope.ngModel);
-                $scope.ngModel.setHours($scope.time.getHours(), $scope.time.getMinutes(), 0, 0);
-              }
-            };
-            $scope.open = function($event) {
-              $event.preventDefault();
-              $event.stopPropagation();
-              $scope.opened = true;
-            };
-          }
-        ],
-        link: function(scope, element) {
-          var firstTimeAssign = true;
+                    attrs.$observe('datetimePicker', function (value) {
+                        dateFormat = value || uiDatetimePickerConfig.dateFormat;
+                        ngModel.$render();
+                    });
 
-          scope.$watch(function() {
-            return scope.ngModel;
-          }, function(newTime) {
-            // if a time element is focused, updating its model will cause hours/minutes to be formatted by padding with leading zeros
-            if (!element.children()[1].contains(document.activeElement)) {
+                    // popup element used to display calendar
+                    var popupEl = angular.element('' +
+                        '<div date-picker-wrap ng-show="showPicker == \'date\'">' +
+                        '<div datepicker></div>' +
+                        '</div>' +
+                        '<div time-picker-wrap ng-show="showPicker == \'time\'">' +
+                        '<div timepicker style="margin:0 auto"></div>' +
+                        '</div>');
 
-              if (newTime == null || newTime === '') { // if the newTime is not defined
-                if (firstTimeAssign) { // if it's the first time we assign the time value
-                  // create a new default time where the hours, minutes, seconds and milliseconds are set to 0.
-                  newTime = new Date();
-                  newTime.setHours(0, 0, 0, 0);
-                } else { // just leave the time unchanged
-                  return;
+                    // get attributes from directive
+                    popupEl.attr({
+                        'ng-model': 'date',
+                        'ng-change': 'dateSelection()'
+                    });
+
+                    function cameltoDash(string) {
+                        return string.replace(/([A-Z])/g, function ($1) { return '-' + $1.toLowerCase(); });
+                    }
+
+                    // datepicker element
+                    var datepickerEl = angular.element(popupEl.children()[0]);
+                    if (attrs.datepickerOptions) {
+                        angular.forEach(scope.$parent.$eval(attrs.datepickerOptions), function (value, option) {
+                            datepickerEl.attr(cameltoDash(option), value);
+                        });
+                    }
+
+                    // timepicker element
+                    var timepickerEl = angular.element(popupEl.children()[1]);
+                    if (attrs.timepickerOptions) {
+                        angular.forEach(scope.$parent.$eval(attrs.timepickerOptions), function (value, option) {
+                            timepickerEl.attr(cameltoDash(option), value);
+                        });
+                    }
+
+                    // set datepickerMode to day by default as need to create watch
+                    // this gets round issue#5 where by the highlight is not shown
+                    if (!angular.isDefined(attrs['datepickerMode'])) attrs['datepickerMode'] = 'day';
+
+                    scope.watchData = {};
+                    angular.forEach(['minDate', 'maxDate', 'datepickerMode'], function (key) {
+                        if (attrs[key]) {
+                            var getAttribute = $parse(attrs[key]);
+
+                            scope.$parent.$watch(getAttribute, function (value) {
+                                scope.watchData[key] = value;
+                            });
+                            datepickerEl.attr(cameltoDash(key), 'watchData.' + key);
+
+                            // Propagate changes from datepicker to outside
+                            if (key === 'datepickerMode') {
+                                var setAttribute = getAttribute.assign;
+                                scope.$watch('watchData.' + key, function(value, oldvalue) {
+                                    if ( angular.isFunction(setAttribute) && value !== oldvalue ) {
+                                        setAttribute(scope.$parent, value);
+                                    }
+                                });
+                            }                        }
+                    });
+
+                    if (attrs.dateDisabled) {
+                        datepickerEl.attr('date-disabled', 'dateDisabled({ date: date, mode: mode })');
+                    }
+
+                    function isDateDisabled(dt) {
+                        return attrs.dateDisabled && angular.isDefined(dt) && scope.dateDisabled({ date: dt, mode: scope.watchData['datepickerMode']});
+                    }
+
+                    function parseDate(viewValue) {
+                        if (!viewValue) {
+                            ngModel.$setValidity('date', true);
+                            return null;
+                        } else if (angular.isDate(viewValue) && !isNaN(viewValue)) {
+                            ngModel.$setValidity('date', true);
+                            return viewValue;
+                        } else if (angular.isString(viewValue)) {
+                            var date = dateParser.parse(viewValue, dateFormat) || new Date(viewValue);
+
+                            if (isNaN(date)) {
+                                ngModel.$setValidity('date', false);
+                                return undefined;
+                            } else {
+                                ngModel.$setValidity('date', true);
+                                return date;
+                            }
+                        } else {
+                            ngModel.$setValidity('date', false);
+                            return undefined;
+                        }
+                    }
+                    ngModel.$parsers.unshift(parseDate);
+
+                    // Inner change
+                    scope.dateSelection = function (dt) {
+                        // check which picker is being shown, if its date, all is fine and this is the date
+                        // we will use, if its the timePicker but enableDate = true, we need to merge
+                        // the values, else timePicker will reset the date
+                        if (scope.enableDate && scope.enableTime && scope.showPicker === 'time') {
+                            if (currentDate && currentDate !== null && (scope.date !== null || dt || dt != null)) {
+                                // dt will not be undefined if the now or today button is pressed
+                                if (dt && dt != null) {
+                                    currentDate.setHours(dt.getHours());
+                                    currentDate.setMinutes(dt.getMinutes());
+                                    currentDate.setSeconds(dt.getSeconds());
+                                    currentDate.setMilliseconds(dt.getMilliseconds());
+                                    dt = new Date(currentDate);
+                                } else {
+                                    currentDate.setHours(scope.date.getHours());
+                                    currentDate.setMinutes(scope.date.getMinutes());
+                                    currentDate.setSeconds(scope.date.getSeconds());
+                                    currentDate.setMilliseconds(scope.date.getMilliseconds());
+                                }
+
+                            }
+                        }
+
+                        if (angular.isDefined(dt)) {
+                            scope.date = dt;
+                        }
+
+                        // store currentDate
+                        currentDate = scope.date;
+
+                        ngModel.$setViewValue(scope.date);
+                        ngModel.$render();
+
+                        if (dt === null) {
+                            scope.close();
+                        } else if (closeOnDateSelection) {
+                            // do not close when using timePicker
+                            if (scope.showPicker != 'time') {
+                                // if time is enabled, swap to timePicker
+                                if (scope.enableTime) {
+                                    scope.showPicker = 'time';
+                                } else {
+                                    scope.close();
+                                }
+                            }
+                        }
+
+                    };
+
+                    element.bind('input change keyup', function () {
+                        scope.$apply(function () {
+                            scope.date = ngModel.$modelValue;
+                        });
+                    });
+
+                    // Outer change
+                    ngModel.$render = function () {
+                        var date = ngModel.$viewValue ? parseDate(ngModel.$viewValue) : null;
+                        var display = date ? dateFilter(date, dateFormat) : '';
+                        element.val(display);
+                        scope.date = date;
+                    };
+
+                    var documentClickBind = function (event) {
+                        if (scope.isOpen && event.target !== element[0]) {
+                            scope.$apply(function () {
+                                scope.isOpen = false;
+                            });
+                        }
+                    };
+
+                    var keydown = function (evt, noApply) {
+                        scope.keydown(evt);
+                    };
+                    element.bind('keydown', keydown);
+
+                    scope.keydown = function (evt) {
+                        if (evt.which === 27) {
+                            evt.preventDefault();
+
+                            if (scope.isOpen) {
+                                evt.stopPropagation();
+                            }
+                            scope.close();
+                        } else if (evt.which === 40 && !scope.isOpen) {
+                            scope.isOpen = true;
+                        }
+                    };
+
+                    scope.$watch('isOpen', function (value) {
+                        scope.dropdownStyle = {
+                            display: value ? 'block' : 'none'
+                        };
+
+                        if (value) {
+                            scope.$broadcast('datepicker.focus');
+
+                            var position = appendToBody ? $position.offset(element) : $position.position(element);
+
+                            if (appendToBody) {
+                                scope.dropdownStyle.top = (position.top + element.prop('offsetHeight')) +'px';
+                            } else {
+                                scope.dropdownStyle.top = undefined;
+                            }
+
+                            scope.dropdownStyle.left = position.left + 'px';
+
+                            $document.bind('click', documentClickBind);
+                        } else {
+                            $document.unbind('click', documentClickBind);
+                        }
+                    });
+
+                    scope.isTodayDisabled = function() {
+                        return isDateDisabled(new Date());
+                    };
+
+                    scope.select = function (date) {
+
+                        if (date === 'today' || date == 'now') {
+                            var now = new Date();
+                            if (angular.isDate(ngModel.$modelValue)) {
+                                date = new Date(ngModel.$modelValue);
+                                date.setFullYear(now.getFullYear(), now.getMonth(), now.getDate());
+                                date.setHours(now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds());
+                            } else {
+                                date = now;
+                            }
+                        }
+
+                        scope.dateSelection(date);
+                    };
+
+                    scope.close = function () {
+                        scope.isOpen = false;
+                        element[0].focus();
+                    };
+
+                    scope.changePicker = function (e) {
+                        scope.showPicker = e;
+                    };
+
+                    var $popup = $compile(popupEl)(scope);
+                    // Prevent jQuery cache memory leak (template is now redundant after linking)
+                    popupEl.remove();
+
+                    if (appendToBody) {
+                        $document.find('body').append($popup);
+                    } else {
+                        element.after($popup);
+                    }
+
+                    scope.$on('$destroy', function () {
+                        $popup.remove();
+                        element.unbind('keydown', keydown);
+                        $document.unbind('click', documentClickBind);
+                    });
                 }
-              }
+            };
+        }])
 
-              // Update timepicker (watch on ng-model in timepicker does not use object equality),
-              // also if the ngModel was not a Date, convert it to date
-              newTime = new Date(newTime);
-
-              scope.time = newTime; // change the time
-              if (firstTimeAssign) {
-                firstTimeAssign = false;
-              }
+    .directive('datePickerWrap', function () {
+        return {
+            restrict: 'EA',
+            replace: true,
+            transclude: true,
+            templateUrl: 'template/datetime-picker.html',
+            link: function (scope, element, attrs) {
+                element.bind('click', function (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                });
             }
-          }, true);
-        }
-      }
-    }
-  ]);
+        };
+    })
+
+    .directive('timePickerWrap', function () {
+        return {
+            restrict: 'EA',
+            replace: true,
+            transclude: true,
+            templateUrl: 'template/datetime-picker.html',
+            link: function (scope, element, attrs) {
+                element.bind('click', function (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                });
+            }
+        };
+    });
+
+angular.module('ui.bootstrap.datetimepicker').run(['$templateCache', function($templateCache) {
+  'use strict';
+
+  $templateCache.put('template/datetime-picker.html',
+    "<ul class=\"dropdown-menu dropdown-menu-left datetime-picker-dropdown\" ng-style=dropdownStyle style=left:inherit ng-keydown=keydown($event)><li style=\"padding:0 5px 5px 5px\" ng-class=\"{'date-picker-menu': showPicker == 'date', 'time-picker-menu' : showPicker == 'time'}\"><div ng-transclude></div></li><li ng-if=showButtonBar style=padding:5px><span class=\"btn-group pull-left\" style=margin-right:10px><button ng-if=\"showPicker == 'date'\" type=button class=\"btn btn-sm btn-info\" ng-click=\"select('today')\" ng-disabled=isTodayDisabled()>{{ getText('today') }}</button> <button ng-if=\"showPicker == 'time'\" type=button class=\"btn btn-sm btn-info\" ng-click=\"select('now')\" ng-disabled=isTodayDisabled()>{{ getText('now') }}</button> <button type=button class=\"btn btn-sm btn-danger\" ng-click=select(null)>{{ getText('clear') }}</button></span> <span class=\"btn-group pull-right\"><button ng-if=\"showPicker == 'date' && enableTime\" type=button class=\"btn btn-sm btn-default\" ng-click=\"changePicker('time')\">{{ getText('time')}}</button> <button ng-if=\"showPicker == 'time' && enableDate\" type=button class=\"btn btn-sm btn-default\" ng-click=\"changePicker('date')\">{{ getText('date')}}</button> <button type=button class=\"btn btn-sm btn-success\" ng-click=close()>{{ getText('close') }}</button></span></li></ul>"
+  );
+
+}]);
