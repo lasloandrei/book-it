@@ -2,25 +2,22 @@
 
 <html>
 <body>
-<svg id="mySVG" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+<svg id="mySVG" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1404"
+   height="2048"/>
 
 <script>
-	var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+	var svg = document.getElementById("mySVG");
     var svgNS = svg.namespaceURI;
 
-    var rect = document.createElementNS(svgNS,'rect');
-    rect.setAttribute('x',5);
-    rect.setAttribute('y',5);
-    rect.setAttribute('width',500);
-    rect.setAttribute('height',500);
-    rect.setAttribute('fill','#95B3D7');
+    var rect = document.createElementNS(svgNS,'rect'); 
+    rect.setAttribute('x',100.14598);
+    rect.setAttribute('y',87.850876);
+    rect.setAttribute('width',289.97369);
+    rect.setAttribute('height',115.27547);
+    rect.setAttribute('fill','#4d4d4d');
+    rect.setAttribute('transform',"rotate(90 250 250)");
     svg.appendChild(rect);
-    document.body.appendChild(svg);
 
-    var h=document.createElement('a');
-    var t=document.createTextNode('Hello World');
-    h.appendChild(t);
-    document.body.appendChild(h);
 </script>
 
 </body>
