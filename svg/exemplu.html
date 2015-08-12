@@ -1,0 +1,66 @@
+<html>
+<body>
+
+
+<svg id="map" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="700" height="1000" viewBox="0 0 500 400">
+
+  <defs>
+      <!-- Define out map "pin" for table
+           The table is centred on (0,0) to make positioning at the destination point simpler. -->
+      <g id="pin" >
+          <rect x="0" y="0" height="40" width="15" fill="#4d4d4d" stroke="none" stroke-width="0"      
+     onmouseover="evt.target.setAttribute('style', 'fill:black');"
+     onmouseout="evt.target.setAttribute('style','fill:#999999');"
+     onclick="evt.target.setAttribute('style', 'fill:#FF6600');"
+     ondblclick="evt.target.setAttribute('style', 'fill:#999999');"/>
+      </g>
+  </defs>
+
+  <!-- A simple floorplan map -->
+  <g id="floor" fill="#FF7F2A" stroke="none" >
+      <rect x="45" y="50" width="225" height="160" rx="15" ry="15"/>
+      <rect x="35" y="-70" width="245" height="100" fill="white" stroke="black" stroke-width="1">
+      <text>Stage</text>
+      </rect>
+     <!-- <rect x="250" y="100" width="200" height="225" /> -->
+  </g>
+
+  <!-- A group to hold the created pin refernces. Not necessary, but keeps things tidy. -->
+  <g id="markers" 
+     onmouseover="evt.target.setAttribute('style', 'fill:black');"
+     onmouseout="evt.target.setAttribute('style','fill:#999999');"
+     onclick="evt.target.setAttribute('style', 'fill:#FF6600');"
+     ondblclick="evt.target.setAttribute('style', 'fill:#999999');">
+  </g>
+</svg>
+
+<script type="text/javascript">
+var  tablePositions = [[60,60], [95,60], [130,60], [165,60], [200,60], [235,60], [60,120], [95,120], [130,120], [165,120], [200,120], [235,120]];
+
+var svgNS = "http://www.w3.org/2000/svg";
+var xlinkNS = "http://www.w3.org/1999/xlink";
+var c=0;
+var r=0;
+var i=60;
+var j=60;
+
+for (var i=0; i<tablePositions.length; i++) { c++;
+    if(c==6)
+      {r++;}
+    if (r>3) break;
+    // Create an SVG <use> element
+    var  use = document.createElementNS(svgNS, "use");
+    // Point it at our pin marker (the table)
+    use.setAttributeNS(xlinkNS, "href", "#pin");
+    // Set it's x and y
+    use.setAttribute("x", tablePositions[i][0]);
+    use.setAttribute("y", tablePositions[i][1]);
+    // Add properties
+    // Add it to the "markers" group
+    document.getElementById("markers").appendChild(use);
+}
+   
+</script>
+</body>
+</html>
