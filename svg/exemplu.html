@@ -9,11 +9,7 @@
       <!-- Define out map "pin" for table
            The table is centred on (0,0) to make positioning at the destination point simpler. -->
       <g id="pin" >
-          <rect x="0" y="0" height="40" width="15" fill="#4d4d4d" stroke="none" stroke-width="0"      
-     onmouseover="evt.target.setAttribute('style', 'fill:black');"
-     onmouseout="evt.target.setAttribute('style','fill:#999999');"
-     onclick="evt.target.setAttribute('style', 'fill:#FF6600');"
-     ondblclick="evt.target.setAttribute('style', 'fill:#999999');"/>
+          <rect x="0" y="0" height="40" width="15" fill="#4d4d4d" stroke="none" stroke-width="0">
       </g>
   </defs>
 
@@ -40,15 +36,8 @@ var  tablePositions = [[60,60], [95,60], [130,60], [165,60], [200,60], [235,60],
 
 var svgNS = "http://www.w3.org/2000/svg";
 var xlinkNS = "http://www.w3.org/1999/xlink";
-var c=0;
-var r=0;
-var i=60;
-var j=60;
 
-for (var i=0; i<tablePositions.length; i++) { c++;
-    if(c==6)
-      {r++;}
-    if (r>3) break;
+for (var i=0; i<tablePositions.length; i++) { 
     // Create an SVG <use> element
     var  use = document.createElementNS(svgNS, "use");
     // Point it at our pin marker (the table)

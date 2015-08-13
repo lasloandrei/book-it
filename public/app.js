@@ -104,7 +104,14 @@ $scope.dates = {
         }
     }, true);
 
+$scope.submitForm = function(isValid) {
 
+    // check to make sure the form is completely valid
+    if (isValid) { 
+      alert('Successfully submitted');
+    }
+
+  };
 
 
   $scope.update = function(contact) {

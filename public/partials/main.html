@@ -68,7 +68,90 @@ for( ; i < len; ++i ){document.createElement(t[i]);}
 <script>
   $(function () { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); } );
 </script>
-
+<script>
+$(document).ready(function() {
+    $('#contactForm')
+        .formValidation({
+            framework: 'bootstrap',
+            icon: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                firstName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The first name is required'
+                        }
+                    }
+                },
+                lastName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The last name is required'
+                        }
+                    }
+                },
+                company: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The company name is required'
+                        }
+                    }
+                },
+                // These fields will be validated when being visible
+                job: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The job title is required'
+                        }
+                    }
+                },
+                department: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The department name is required'
+                        }
+                    }
+                },
+                mobilePhone: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The mobile phone number is required'
+                        },
+                        digits: {
+                            message: 'The mobile phone number is not valid'
+                        }
+                    }
+                },
+                // These fields will be validated when being visible
+                homePhone: {
+                    validators: {
+                        digits: {
+                            message: 'The home phone number is not valid'
+                        }
+                    }
+                },
+                officePhone: {
+                    validators: {
+                        digits: {
+                            message: 'The office phone number is not valid'
+                        }
+                    }
+                }
+            }
+        })
+        .on('click', 'button[data-toggle]', function() {
+            var $target = $($(this).attr('data-toggle'));
+            $target.toggle();
+            if (!$target.is(':visible')) {
+                // Enable the submit buttons in case additional fields are not valid
+                $('#contactForm').data('formValidation').disableSubmitButtons(false);
+            }
+        });
+});
+</script>
 <style>
   .full button span {
     background-color: limegreen;
@@ -134,7 +217,7 @@ for( ; i < len; ++i ){document.createElement(t[i]);}
 	</div><!-- /.ajax-container-->
 
 	<div id="section" class="container">
-    	<form name='contactForm' ng-controller="FormController">
+    	<form name='contactForm' ng-controller="FormController" data-toggle="validator">
       	
       		<pre>Reservation for: <em>{{reservation_date | date:'fullDate' }}<br>Reservation starting hour: {{reservation_date| date:'shortTime' }}</em> <br>Contact Details: <em>{{contact}} {{dining_table_id}}</em></pre>
       		<pre>Reservation id: <em>{{dining_table.zone_id}}</em></pre>
@@ -172,7 +255,7 @@ for( ; i < len; ++i ){document.createElement(t[i]);}
 	        <!-- CONTACT FIRST NAME -->
 	  		<div class="form-group" >
 	    		<label for="contact[first_name]">First Name</label>
-	   			<input type="text" name="contact[first_name]" ng-model="contact.first_name" class="form-control" placeholder="Eriksen" required>
+	   			<input type="text" name="firstName" ng-model="contact.first_name" class="form-control" placeholder="Eriksen" required>
 	  
 	  		</div>
 
@@ -183,16 +266,22 @@ for( ; i < len; ++i ){document.createElement(t[i]);}
 	  		</div>
 
 	        <!-- CONTACT PHONE NUMBER -->
-	  		<div class="form-group" >
+	  		<div class="form-group" ng-class="{ 'has-error' : contactForm.phone_number.$invalid && !contactForm.phone_number.$pristine }" >
 	    		<label for="contact[phone_number]">Phone Number</label>
-	    		<input type="text" name="contact[phone_number]" ng-model="contact.phone_number" class="form-control" required>
+	    		<input type="text" name="contact[phone_number]" ng-model="contact.phone_number" require ng-pattern="/^\d{0,9}(\.\d{1,9})?$/" class="form-control" required>
+	  			<p ng-show="contactForm.phone_number.$invalid && !contactForm.phone_number.$pristine" class="help-block">Enter a valid phone  	number.</p>
 	  		</div>
 
 	  		<!-- CONTACT EMAIL -->
-	  		<div class="form-group">
+	  		<!-- <div class="form-group">
 			    <label for="contact[email]">Email</label>
 			    <input type="text" name="contact[email]" ng-model="contact.email" class="form-control" placeholder="george.eriksen@example.com">
-	  		</div>
+	  		</div> -->
+		  	<div class="form-group" ng-class="{ 'has-error' : contactForm.email.$invalid && !contactForm.email.$pristine }">
+	            <label>Email</label>
+	            <input type="email" name="email" class="form-control" ng-model="contact.email">
+	            <p ng-show="contactForm.email.$invalid && !contactForm.email.$pristine" class="help-block">Enter a valid email.</p>
+	        </div>
 
 	  		<!-- RESERVATION OBSERVATION -->
 	  		<div class="form-group">
