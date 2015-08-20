@@ -268,8 +268,9 @@ $(document).ready(function() {
 	        <!-- CONTACT PHONE NUMBER -->
 	  		<div class="form-group" ng-class="{ 'has-error' : contactForm.phone_number.$invalid && !contactForm.phone_number.$pristine }" >
 	    		<label for="contact[phone_number]">Phone Number</label>
-	    		<input type="text" name="contact[phone_number]" ng-model="contact.phone_number" require ng-pattern="/^\d{0,9}(\.\d{1,9})?$/" class="form-control" required>
-	  			<p ng-show="contactForm.phone_number.$invalid && !contactForm.phone_number.$pristine" class="help-block">Enter a valid phone  	number.</p>
+	    		<input type="text" name="phone_number" ng-model="contact.phone_number" require ng-pattern="/^[0-9]+$/" class="form-control" ng-minlength="10"  required>
+	  			<p ng-show="contactForm.phone_number.$invalid && !contactForm.phone_number.$pristine" class="help-block">Enter a valid phone number.</p>
+	  			<p ng-show="contactForm.phone_number.$error.minlength" class="help-block">Phone number is too short.</p>
 	  		</div>
 
 	  		<!-- CONTACT EMAIL -->
