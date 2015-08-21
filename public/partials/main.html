@@ -241,13 +241,13 @@ $(document).ready(function() {
 				<!-- RESERVATION ZONE -->
 				<div class="col-xs-4" dropdown>
 					<label for="exampleDate">Zone</label>
-					<select class="form-control" name='zone[name]' ng-change="filterOutDiningTables()" ng-model="dining_table.zone_id" ng-options="zone.id as zone.name for zone in zones" ></select>
+					<select required class="form-control" name='zone[name]' ng-change="filterOutDiningTables()" ng-model="dining_table.zone_id" ng-options="zone.id as zone.name for zone in zones" required><option></option></select>
 			    </div>
 
 				<!-- DINING TABLE SEATS -->	
-				<div class="col-xs-4">
-					<label for="exampleDate">Seats / Dining Table</label>
-					<select class="form-control" name='dining_table[id]' ng-model="dining_table_id" ng-options="dining_table.id as dining_table.seat +' (' + dining_table.zone_id + ')' for dining_table in dining_tables | orderBy:'seat'"></select>
+				<div class="col-xs-4" ng-class="{ 'has-error' : contactForm.phone_number.$invalid && !contactForm.phone_number.$pristine }">
+					<label for="dining_table[id]">Seats / Dining Table</label>
+					<select class="form-control" name='dining_table[id]' ng-model="dining_table_id" ng-options="dining_table.id as dining_table.seat +' (' + dining_table.zone_id + ')' for dining_table in dining_tables | orderBy:'seat'" required><option></option></select>
 				</div>
 			</div> <!-- /row-->
 			<br />
@@ -255,7 +255,7 @@ $(document).ready(function() {
 	        <!-- CONTACT FIRST NAME -->
 	  		<div class="form-group" >
 	    		<label for="contact[first_name]">First Name</label>
-	   			<input type="text" name="firstName" ng-model="contact.first_name" class="form-control" placeholder="Eriksen" required>
+	   			<input type="text" name="contact[first_name]" ng-model="contact.first_name" class="form-control" placeholder="Eriksen" required>
 	  
 	  		</div>
 
