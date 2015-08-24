@@ -1,4 +1,9 @@
 <html>
+<head>
+<style>
+      
+</style>
+</head>
 <body>
 
 
@@ -9,7 +14,8 @@
       <!-- Define out map "pin" for table
            The table is centred on (0,0) to make positioning at the destination point simpler. -->
       <g id="pin" >
-          <rect x="0" y="0" height="40" width="15" fill="#4d4d4d" stroke="none" stroke-width="0">
+          <rect x="0" y="0" height="40" width="15"  stroke="none" stroke-width="0">
+            <!-- <set attributeName="fill" to="#FF0000" begin="markers.click" end="markers.dblclick"/> -->
       </g>
   </defs>
 
@@ -23,16 +29,19 @@
   </g>
 
   <!-- A group to hold the created pin refernces. Not necessary, but keeps things tidy. -->
-  <g id="markers" 
-     onmouseover="evt.target.setAttribute('style', 'fill:black');"
-     onmouseout="evt.target.setAttribute('style','fill:#999999');"
-     onclick="evt.target.setAttribute('style', 'fill:#FF6600');"
-     ondblclick="evt.target.setAttribute('style', 'fill:#999999');">
+  <g id="markers" fill="#4d4d4d"
+     onmouseover="evt.target.setAttribute('style', 'fill:#FF0000');"
+     onmouseout="evt.target.setAttribute('style', 'fill:#4d4d4d');"
+     onclick="evt.target.setAttribute('style', 'fill:#FF0000'); "
+     onactivate="evt.target.setAttribute('style', 'fill:#FF0000');"
+     ondblclick="evt.target.setAttribute('style', 'fill:#4d4d4d');">
+     
   </g>
 </svg>
 
 <script type="text/javascript">
 var  tablePositions = [[60,60], [95,60], [130,60], [165,60], [200,60], [235,60], [60,120], [95,120], [130,120], [165,120], [200,120], [235,120]];
+var tables = [{id: 1, x: 60, y:60, seats: 5}, {id: 2, x: 60, y:60, seats: 5}]
 
 var svgNS = "http://www.w3.org/2000/svg";
 var xlinkNS = "http://www.w3.org/1999/xlink";

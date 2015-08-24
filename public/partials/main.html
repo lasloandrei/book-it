@@ -219,8 +219,8 @@ $(document).ready(function() {
 	<div id="section" class="container">
     	<form name='contactForm' ng-controller="FormController" data-toggle="validator">
       	
-      		<pre>Reservation for: <em>{{reservation_date | date:'fullDate' }}<br>Reservation starting hour: {{reservation_date| date:'shortTime' }}</em> <br>Contact Details: <em>{{contact}} {{dining_table_id}}</em></pre>
-      		<pre>Reservation id: <em>{{dining_table.zone_id}}</em></pre>
+      		<pre>Reservation for: <em>{{reservation_date | date:'fullDate' }}<br>Reservation starting hour: {{reservation_date| date:'shortTime' }}</em> <br>Contact Details: <em>{{contact}} {{dining_table_id}}</em><br>Zone id: <em>{{dining_table.zone_id}}</em></pre>
+
       		{{error}}
         
 	    
@@ -245,7 +245,7 @@ $(document).ready(function() {
 			    </div>
 
 				<!-- DINING TABLE SEATS -->	
-				<div class="col-xs-4" ng-class="{ 'has-error' : contactForm.phone_number.$invalid && !contactForm.phone_number.$pristine }">
+				<div class="col-xs-4" ng-class="{ 'has-error' : contactForm.dining_table[id].$invalid && !contactForm.dining_table[id].$pristine }">
 					<label for="dining_table[id]">Seats / Dining Table</label>
 					<select class="form-control" name='dining_table[id]' ng-model="dining_table_id" ng-options="dining_table.id as dining_table.seat +' (' + dining_table.zone_id + ')' for dining_table in dining_tables | orderBy:'seat'" required><option></option></select>
 				</div>
