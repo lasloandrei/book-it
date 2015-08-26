@@ -15,7 +15,6 @@
            The table is centred on (0,0) to make positioning at the destination point simpler. -->
       <g id="pin" >
           <rect x="0" y="0" height="40" width="15"  stroke="none" stroke-width="0">
-            <!-- <set attributeName="fill" to="#FF0000" begin="markers.click" end="markers.dblclick"/> -->
       </g>
   </defs>
 
@@ -29,10 +28,14 @@
   </g>
 
   <!-- A group to hold the created pin refernces. Not necessary, but keeps things tidy. -->
+  <script>var domouseout = true;</script>
+
+  
   <g id="markers" fill="#4d4d4d"
+
      onmouseover="evt.target.setAttribute('style', 'fill:#FF0000');"
-     onmouseout="evt.target.setAttribute('style', 'fill:#4d4d4d');"
-     onclick="evt.target.setAttribute('style', 'fill:#FF0000'); "
+     onmouseout="if (domouseout) evt.target.setAttribute('style', 'fill:#4d4d4d');"
+     onclick="domouseout=false;evt.target.setAttribute('style', 'fill:#FF0000');"
      onactivate="evt.target.setAttribute('style', 'fill:#FF0000');"
      ondblclick="evt.target.setAttribute('style', 'fill:#4d4d4d');">
      
