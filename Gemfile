@@ -65,3 +65,5 @@ end
   gem 'bootstrap3-datetimepicker-rails', '~> 4.14.30'
   #Creates charts for dashboard. Read more: https://github.com/ankane/chartkick
   gem 'chartkick'
+  #Chartkick update: allows you to 'group by'
+  gem 'groupdate'
