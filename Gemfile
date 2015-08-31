@@ -3,7 +3,8 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.2'
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+#gem 'sqlite3'
+gem 'mysql2'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -38,6 +39,8 @@ gem 'bcrypt', '~> 3.1.7'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+# Use yaml_db gem to dump db to db/data.yml and use it to load it to other db (exp: from sqlit3 to mysql)
+gem 'yaml_db'
 
 group :development, :test do
   # used for renaming the app
@@ -67,3 +70,4 @@ end
   gem 'chartkick'
   #Chartkick update: allows you to 'group by'
   gem 'groupdate'
+  
