@@ -8,12 +8,28 @@ ActiveAdmin.register_page "Dashboard" do
 
     columns do
         column do
-            panel "Recent Posts" do
-                render 'active_admin/dashboard/test'
+            panel "Reservations for last 7 days" do
+                render 'active_admin/dashboard/reservationslastdays'
+            end
+        end
+        column do
+            panel "Reservations for last 6 months" do
+                render 'active_admin/dashboard/reservationslastmonths'
             end
         end
     end
-    
+    columns do
+        column do
+            panel "Contacts for last 3 months" do
+                render 'active_admin/dashboard/contactslastmonths'
+            end
+        end
+        column do
+            panel "User sign in count for last 3 months" do
+                render 'active_admin/dashboard/usersignincount'
+            end
+        end
+    end
     # Here is an example of a simple dashboard with columns and panels.
     #
     # columns do

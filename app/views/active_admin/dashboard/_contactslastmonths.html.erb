@@ -1,2 +1,3 @@
 <%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
-<%= line_chart Reservation.group_by_week(:date).count %>
+
+<%= line_chart Contact.group_by_month(:created_at, last:3).count %>

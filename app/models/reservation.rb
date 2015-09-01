@@ -5,4 +5,8 @@ class Reservation < ActiveRecord::Base
   validates :contact, presence: true
   validates :dining_table,  presence: true
   validates :date, presence: true
+  #Function displays the date of the Reservation in Activeadmin dropdown
+  def display_name
+    date
+  end
 end

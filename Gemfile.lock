@@ -125,6 +125,8 @@ GEM
     has_scope (0.6.0)
       actionpack (>= 3.2, < 5)
       activesupport (>= 3.2, < 5)
+    highcharts-rails (4.1.8)
+      railties (>= 3.1)
     hirb (0.7.3)
     hitimes (1.2.2)
     i18n (0.7.0)
@@ -308,6 +310,7 @@ DEPENDENCIES
   factory_girl_rails
   groupdate
   guard-rspec
+  highcharts-rails (~> 4.1.8)
   hirb
   jbuilder (~> 2.0)
   jquery-rails

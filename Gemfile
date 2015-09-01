@@ -70,4 +70,5 @@ end
   gem 'chartkick'
   #Chartkick update: allows you to 'group by'
   gem 'groupdate'
-  
+  #Highcharts
+  gem 'highcharts-rails', '~> 4.1.8' 
