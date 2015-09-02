@@ -20,8 +20,8 @@ ActiveAdmin.register_page "Dashboard" do
     end
     columns do
         column do
-            panel "Contacts for last 3 months" do
-                render 'active_admin/dashboard/contactslastmonths'
+            panel "Reservations created in the past 7 days" do
+                render 'active_admin/dashboard/reservationscreated'
             end
         end
         column do

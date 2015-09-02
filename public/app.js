@@ -113,11 +113,6 @@ $scope.submitForm = function(isValid) {
 
   };
 
-
-  $scope.update = function(contact) {
-    $scope.master = angular.copy(contact);
-  };
-
   $scope.createContact = function () {
     params = {
       first_name: $scope.contact.first_name,
@@ -136,7 +131,7 @@ $scope.submitForm = function(isValid) {
       data: { contact: params }
 
       }).
-  success(function (data) {
+  success(function () {
       //Showing Success message
       $scope.status = "The Contact Saved Successfully!!!";
           

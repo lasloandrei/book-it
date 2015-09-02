@@ -217,7 +217,7 @@ $(document).ready(function() {
 	</div><!-- /.ajax-container-->
 
 	<div id="section" class="container">
-    	<form name='contactForm' ng-controller="FormController" data-toggle="validator">
+    	<form name='contactForm' ng-controller="FormController" data-toggle="validator" onsubmit="setTimeout('parent.location.reload()',500);">
       	
       		<pre>Reservation for: <em>{{reservation_date | date:'fullDate' }}<br>Reservation starting hour: {{reservation_date| date:'shortTime' }}</em> <br>Contact Details: <em>{{contact}} {{dining_table_id}}</em><br>Zone id: <em>{{dining_table.zone_id}}</em></pre>
 
@@ -292,7 +292,7 @@ $(document).ready(function() {
 
 	  		<hr />
 	  		<!-- SUBMIT BUTTON -->	
-	  		<button ng-click='createContact()' name="commit" class="btn btn-default" >Submit</button>
+	  		<button type="submit" vaklue="submit" ng-click='createContact()' name="commit" class="btn btn-default" >Submit</button>
 		</form>
 	</div>
 </body>
