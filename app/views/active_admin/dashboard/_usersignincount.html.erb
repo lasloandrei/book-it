@@ -1,5 +1,6 @@
 <%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
 
 
-<%= column_chart User.group(:email, :sign_in_count).count%>
+<%= column_chart User.sign_in_count_graph_data %>
+
 

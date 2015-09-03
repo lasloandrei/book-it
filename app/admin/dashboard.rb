@@ -25,7 +25,7 @@ ActiveAdmin.register_page "Dashboard" do
             end
         end
         column do
-            panel "User sign in count for last 3 months" do
+            panel "User sign in count" do
                 render 'active_admin/dashboard/usersignincount'
             end
         end

@@ -20,4 +20,8 @@ RSpec.describe Reservation, type: :model do
 
   it 'has an optional observation' do
   end
+
+  it 'test' do
+    p Reservation.group_by_day(:date, last:7).count
+  end
 end

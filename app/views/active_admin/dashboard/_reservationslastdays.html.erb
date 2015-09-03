@@ -1,3 +1,3 @@
 <%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
 
-<%= line_chart Reservation.group_by_day(:date, last:7).count %>
+<%= line_chart Reservation.group_by_day(:date, last:7, day_start: 23).count %>
