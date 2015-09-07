@@ -72,3 +72,5 @@ end
   gem 'groupdate'
   #Highcharts
   gem 'highcharts-rails', '~> 4.1.8' 
+  #newer version of cancan, manage access for users 
+  gem 'cancancan', '~> 1.10'
